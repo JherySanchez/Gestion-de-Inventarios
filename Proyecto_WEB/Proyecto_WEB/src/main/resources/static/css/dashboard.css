@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/*modifica a la raiz, osea todo el dash*/
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --table-up-bg-color: #ecf0f1;
+    --text-color: #333333;
+    --light-text-color: #ecf0f1;
+    --warning-color: #e74c3c;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f9;
+    color: var(--text-color);
+}
+
+.container {
+    display: grid;
+    grid-template-areas:
+        "sidebar main"
+        "sidebar footer";
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 1fr auto;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    grid-area: sidebar;
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.logo .material-icons {
+    font-size: 36px;
+}
+
+.nav-menu ul {
+    list-style: none;
+}
+
+.nav-menu li {
+    margin-bottom: 10px;
+}
+
+.nav-menu a {
+    color: var(--light-text-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s;
+}
+
+.nav-menu a:hover,
+.nav-menu li.active a {
+    background-color: var(--secondary-color);
+}
+
+.nav-menu .material-icons {
+    font-size: 24px;
+}
+
+/* main ontent */
+.main-content {
+    grid-area: main;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+/* cards */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+}
+
+.card .card-icon {
+    font-size: 40px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.card.warning {
+    border-left: 5px solid var(--warning-color);/*borde rojo de la carta*/
+}
+
+.card h3 {
+    font-size: 1.2em;
+    color: var(--primary-color);
+}
+
+.card p, .card ul {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.card ul {
+    list-style: none;
+    font-size: 1em;
+    text-align: left;
+    font-weight: normal;
+}
+
+.card ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.card ul li:last-child {
+    border-bottom: none;
+}
+
+/* tabla actividad */
+.recent-activity {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.recent-activity h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.activity-table th, .activity-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.activity-table th {
+    background-color: var(--table-up-bg-color);
+    font-weight: bold;
+}
+
+.activity-table tbody tr:hover {
+    background-color: #f0f0f0;
+}
+
+
+/* footer */
+.main-footer {
+    grid-area: footer;
+    background-color: var(--secondary-color);
+    color: var(--light-text-color);
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+.footer-item a {
+    color: var(--light-text-color);
+    text-decoration: none;
+}
