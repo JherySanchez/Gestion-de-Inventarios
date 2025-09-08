@@ -1,7 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-
-    // Datos de ejemplo
-    const productos = [
+document.addEventListener('DOMContentLoaded', function () {
+    let productos = [
         { codigo: 'PROD-001', nombre: 'Laptop Dell XPS 15', precio: 1200, cantidad: 50, stock: 'Disponible' },
         { codigo: 'PROD-002', nombre: 'Mouse Logitech MX Master', precio: 25, cantidad: 150, stock: 'Disponible' },
         { codigo: 'PROD-003', nombre: 'Monitor LG Ultrawide', precio: 300, cantidad: 30, stock: 'Disponible' },
@@ -11,10 +9,18 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     const productTableBody = document.getElementById('productTableBody');
+    const modal = document.getElementById('product-modal');
+    const form = document.getElementById('product-form');
+    const modalTitle = document.getElementById('modal-title');
 
-    // Función para renderizar la tabla con los datos
+    const inputCodigo = document.getElementById('product-code');
+    const inputNombre = document.getElementById('product-name');
+    const inputPrecio = document.getElementById('product-price');
+    const inputCantidad = document.getElementById('product-quantity');
+    const inputStock = document.getElementById('product-stock');
+
     function renderTable(data) {
-        productTableBody.innerHTML = ''; // Limpiar la tabla
+        productTableBody.innerHTML = '';
         data.forEach(producto => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -36,37 +42,91 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Inicializar la tabla
     renderTable(productos);
 
-    // Lógica para los botones de la tabla
     productTableBody.addEventListener('click', (e) => {
-        if (e.target.closest('.edit-btn')) {
-            const codigo = e.target.closest('.edit-btn').getAttribute('data-codigo');
-            alert(`Editar producto con código: ${codigo}`);
-            // Aqui se pude redirigir a un formulario de edicion o abrir un modal
-        } else if (e.target.closest('.delete-btn')) {
-            const codigo = e.target.closest('.delete-btn').getAttribute('data-codigo');
-            if (confirm(`¿Estás seguro de que quieres eliminar el producto ${codigo}?`)) {
-                alert(`Producto ${codigo} eliminado.`);
-                // Logica de eliminación, luego carga la tabla again
+        const button = e.target.closest('button');
+        if (!button) return;
+
+        const codigo = button.dataset.codigo;
+        if (button.classList.contains('edit-btn')) {
+            const producto = productos.find(p => p.codigo === codigo);
+            if (producto) openModal(producto);
+        } else if (button.classList.contains('delete-btn')) {
+            if (confirm(`¿Eliminar producto ${codigo}?`)) {
+                productos = productos.filter(p => p.codigo !== codigo);
+                renderTable(productos);
             }
         }
     });
 
-    // Logica para el boton de Agregar Producto
-    document.getElementById('addButton').addEventListener('click', () => {
-        alert('Redirigiendo... para agregar un nuevo producto.');
-        // Abre el modal para añadir
+    document.getElementById('addListedProductBtn').addEventListener('click', () => {
+        openModal();
     });
 
-    // Logica para el buscador
+    function openModal(producto = null) {
+        form.reset();
+        if (producto) {
+            modalTitle.textContent = 'Editar Producto';
+            inputCodigo.value = producto.codigo;
+            inputNombre.value = producto.nombre;
+            inputPrecio.value = producto.precio;
+            inputCantidad.value = producto.cantidad;
+            inputStock.value = producto.stock;
+        } else {
+            modalTitle.textContent = 'Añadir Producto';
+            inputCodigo.value = '';
+        }
+        modal.classList.remove('hidden');
+    }
+
+    modal.querySelector('.close-btn').addEventListener('click', () => modal.classList.add('hidden'));
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.add('hidden');
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newProduct = {
+            codigo: inputCodigo.value || `PROD-${(productos.length + 1).toString().padStart(3, '0')}`,
+            nombre: inputNombre.value,
+            precio: parseFloat(inputPrecio.value),
+            cantidad: parseInt(inputCantidad.value),
+            stock: inputStock.value
+        };
+
+        const index = productos.findIndex(p => p.codigo === newProduct.codigo);
+        if (index !== -1) {
+            productos[index] = newProduct;
+        } else {
+            productos.push(newProduct);
+        }
+
+        renderTable(productos);
+        modal.classList.add('hidden');
+
+        fetch('/productos/agregar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newProduct)
+        })
+        .then(res => {
+            if (res.ok) {
+                console.log('Producto guardado en el backend');
+            } else {
+                console.warn('Error al guardar en el backend');
+            }
+        })
+        .catch(err => {
+            console.error('Error de conexión:', err);
+        });
+    });
+
     document.getElementById('searchButton').addEventListener('click', () => {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const filteredProducts = productos.filter(p => 
-            p.nombre.toLowerCase().includes(searchTerm) || 
-            p.codigo.toLowerCase().includes(searchTerm)
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = productos.filter(p =>
+            p.nombre.toLowerCase().includes(term) || p.codigo.toLowerCase().includes(term)
         );
-        renderTable(filteredProducts);
+        renderTable(filtered);
     });
 });

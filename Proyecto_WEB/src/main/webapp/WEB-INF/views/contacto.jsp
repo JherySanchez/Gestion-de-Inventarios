@@ -5,19 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Métricas</title>
-
+    <title>Contacto</title>
     <link rel="stylesheet" href="<c:url value='/css/dashboard.css'/>">
-    <link rel="stylesheet" href="<c:url value='/css/metricas.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/contacto.css'/>">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
 <div class="container">
-    
+
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="logo">
             <span class="material-icons">inventory_2</span>
@@ -28,38 +25,51 @@
                 <li><a href="<c:url value='/dashboard'/>"><span class="material-icons">dashboard</span>Dashboard</a></li>
                 <li><a href="<c:url value='/catalogo'/>"><span class="material-icons">grid_view</span>Catálogo Productos</a></li>
                 <li><a href="<c:url value='/lista-productos'/>"><span class="material-icons">list</span>Lista de Productos</a></li>
-                <li><a href="<c:url value='/publicidad'/>"><span class="material-icons">campaign</span>Publicidad</a></li>
+                <li class="active"><a href="<c:url value='/contacto'/>"><span class="material-icons">campaign</span>Contacto</a></li>
                 <li><a href="#"><span class="material-icons">remove_circle</span>Salidas</a></li>
-                <li class="active"><a href="<c:url value='/metricas'/>"><span class="material-icons">analytics</span>Métricas</a></li>
+                <li><a href="<c:url value='/metricas'/>"><span class="material-icons">analytics</span>Métricas</a></li>
                 <li><a href="<c:url value='/gestion-usuarios'/>"><span class="material-icons">group</span>Gestión Usuarios</a></li>
                 <li><a href="#"><span class="material-icons">settings</span>Configuración</a></li>
             </ul>
         </nav>
     </aside>
 
+    <!-- Main content -->
     <main class="main-content">
         <header class="main-header">
-            <h1>Métricas</h1>
+            <h1>Contacto</h1>
         </header>
 
-        <section class="metrics-section">
-            <div class="chart-card">
-                <h3>Productos más vendidos</h3>
-                <canvas id="barChart"></canvas>
-            </div>
+        <!-- Formulario de contacto -->
+        <section class="contact-section">
+            <c:if test="${not empty successMessage}">
+                <div class="alert success">${successMessage}</div>
+            </c:if>
 
-            <div class="chart-card">
-                <h3>Ventas mensuales</h3>
-                <canvas id="lineChart"></canvas>
-            </div>
-
-            <div class="chart-card">
-                <h3>Estado de stock</h3>
-                <canvas id="pieChart"></canvas>
-            </div>
+            <form action="<c:url value='/contacto'/>" method="post" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Asunto:</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensaje:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="save-btn">Enviar Mensaje</button>
+                </div>
+            </form>
         </section>
-    </main>
 
+        <!-- Footer -->
         <footer class="main-footer">
             <div class="footer-item">
                 <a href="<c:url value='/contacto'/>">Contacto</a>
@@ -72,8 +82,9 @@
             </div>
         </footer>
 
+    </main>
+
 </div>
 
-<script src="<c:url value='/js/metricas.js'/>"></script>
 </body>
 </html>

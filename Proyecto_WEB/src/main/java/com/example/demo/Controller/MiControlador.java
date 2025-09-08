@@ -59,5 +59,35 @@ public class MiControlador {
     public String mostrarMetricas() {
         return "metricas";
     }
+
+    @GetMapping("/contacto")
+    public String mostrarContacto() {
+        return "contacto";
+    }
+
+    @GetMapping("/direccion")
+    public String mostrarDireccion() {
+        return "direccion";
+    }
+
+
+    //Ejemplo de envio
+    @PostMapping("/contacto")
+    public String procesarContacto(@RequestParam("name") String name,
+                                   @RequestParam("email") String email,
+                                   @RequestParam("subject") String subject,
+                                   @RequestParam("message") String message,
+                                   Model model) {
+        // Aquí podrías guardar los datos en DB o enviarlos por email
+        System.out.println("Nuevo mensaje de contacto:");
+        System.out.println("Nombre: " + name);
+        System.out.println("Email: " + email);
+        System.out.println("Asunto: " + subject);
+        System.out.println("Mensaje: " + message);
+
+        // Mandamos un atributo para mostrar mensaje de éxito en la vista
+        model.addAttribute("successMessage", "¡Mensaje enviado correctamente!");
+        return "contacto"; // recarga la página de contacto
+    }
     
 }

@@ -51,13 +51,13 @@
 
         <footer class="main-footer">
             <div class="footer-item">
-                <a href="#">Contacto</a>
+                <a href="<c:url value='/contacto'/>">Contacto</a>
             </div>
             <div class="footer-item">
                 <a href="#">Redes Sociales</a>
             </div>
             <div class="footer-item">
-                <a href="#">Dirección</a>
+                <a href="<c:url value='/direccion'/>">Dirección</a>
             </div>
         </footer>
 

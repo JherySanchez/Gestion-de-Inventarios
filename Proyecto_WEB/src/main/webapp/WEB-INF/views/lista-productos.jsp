@@ -73,17 +73,55 @@
 
         <footer class="main-footer">
             <div class="footer-item">
-                <a href="#">Contacto</a>
+                <a href="<c:url value='/contacto'/>">Contacto</a>
             </div>
             <div class="footer-item">
                 <a href="#">Redes Sociales</a>
             </div>
             <div class="footer-item">
-                <a href="#">Dirección</a>
+                <a href="<c:url value='/direccion'/>">Dirección</a>
             </div>
         </footer>
 
     </div>
+    <!-- Modal para agregar/editar producto -->
+<div id="product-modal" class="modal-backdrop hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title">Añadir Producto</h2>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="product-form">
+                <input type="hidden" id="product-code">
+                <div class="form-group">
+                    <label for="product-name">Nombre</label>
+                    <input type="text" id="product-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-price">Precio</label>
+                    <input type="number" id="product-price" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-quantity">Cantidad</label>
+                    <input type="number" id="product-quantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-stock">Stock</label>
+                    <select id="product-stock">
+                        <option value="Disponible">Disponible</option>
+                        <option value="Bajo">Bajo</option>
+                        <option value="Agotado">Agotado</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="save-btn">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
     <script src="<c:url value='/js/lista-productos.js'/>"></script>
 </body>

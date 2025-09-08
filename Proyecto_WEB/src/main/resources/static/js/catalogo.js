@@ -93,4 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const card = createProductCard(producto);
         productGrid.appendChild(card);
     });
+    //declaramos productcart para que funcione en el otro script
+    window.createProductCard = createProductCard;
+    window.productos = productos;
+
 });
