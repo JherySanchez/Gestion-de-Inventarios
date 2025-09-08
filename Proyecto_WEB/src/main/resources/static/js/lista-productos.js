@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Datos de ejemplo
     const productos = [
-        { codigo: 'PROD-001', nombre: 'Laptop Dell', precio: 1200, cantidad: 50, stock: 'Disponible' },
-        { codigo: 'PROD-002', nombre: 'Mouse Logitech', precio: 25, cantidad: 150, stock: 'Disponible' },
-        { codigo: 'PROD-003', nombre: 'Monitor LG', precio: 300, cantidad: 30, stock: 'Disponible' },
-        { codigo: 'PROD-004', nombre: 'Teclado HyperX', precio: 80, cantidad: 20, stock: 'Bajo' },
-        { codigo: 'PROD-005', nombre: 'Audífonos Razer', precio: 150, cantidad: 10, stock: 'Bajo' },
-        { codigo: 'PROD-006', nombre: 'Disco Duro SSD', precio: 90, cantidad: 5, stock: 'Agotado' },
+        { codigo: 'PROD-001', nombre: 'Laptop Dell XPS 15', precio: 1200, cantidad: 50, stock: 'Disponible' },
+        { codigo: 'PROD-002', nombre: 'Mouse Logitech MX Master', precio: 25, cantidad: 150, stock: 'Disponible' },
+        { codigo: 'PROD-003', nombre: 'Monitor LG Ultrawide', precio: 300, cantidad: 30, stock: 'Disponible' },
+        { codigo: 'PROD-004', nombre: 'Teclado HyperX Alloy Rise', precio: 80, cantidad: 20, stock: 'Bajo' },
+        { codigo: 'PROD-005', nombre: 'Audífonos Razer Blackshark V3', precio: 150, cantidad: 10, stock: 'Bajo' },
+        { codigo: 'PROD-006', nombre: 'Logitech MX Brio Webcam 4K', precio: 90, cantidad: 5, stock: 'Agotado' },
     ];
 
     const productTableBody = document.getElementById('productTableBody');

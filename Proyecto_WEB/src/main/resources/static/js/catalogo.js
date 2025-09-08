@@ -1,4 +1,5 @@
-    // ejemplo
+document.addEventListener('DOMContentLoaded', function() {
+    // Datos de ejemplo
     const productos = [
         {
             id: 1,
@@ -71,15 +72,15 @@
         
         // Agregar eventos a los botones
         card.querySelector('.edit').addEventListener('click', () => {
-            alert(`Modificar producto: ${producto.nombre}`);
-            // Para abrir un modal
+            // Llama a la función global del otro script para abrir el modal en modo edición
+            if (window.openEditModal) {
+                window.openEditModal(producto);
+            }
         });
         
         card.querySelector('.delete').addEventListener('click', () => {
             if (confirm(`¿Estás seguro de que quieres eliminar el producto: ${producto.nombre}?`)) {
-                // Aqui va la logica para eliminar el producto
-                alert(`Producto ${producto.nombre} eliminado.`);
-                // alerta al eliminar la tarjeta del DOM
+                //Aqui va la logica para eliminar en una BD
                 card.remove();
             }
         });
@@ -92,9 +93,4 @@
         const card = createProductCard(producto);
         productGrid.appendChild(card);
     });
-
-    // Evento para el botón "Añadir Producto"
-    document.getElementById('addCatalogProductBtn').addEventListener('click', () => {
-        alert('Añadir nuevo producto');
-        // Modal para la creacion de un nuevo producto
-    });
+});

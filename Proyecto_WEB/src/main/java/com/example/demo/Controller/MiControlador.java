@@ -49,5 +49,15 @@ public class MiControlador {
     public String mostrarPublicidad() {
         return "publicidad";
     }
+
+    @GetMapping("/gestion-usuarios")
+    public String mostrarGestionUsuarios() {
+        return "gestion-usuarios";
+    }
+    
+    @GetMapping("/metricas")
+    public String mostrarMetricas() {
+        return "metricas";
+    }
     
 }

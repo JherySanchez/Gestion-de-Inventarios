@@ -25,8 +25,8 @@
                     <li><a href="<c:url value='/lista-productos'/>"><span class="material-icons">list</span>Lista de Productos</a></li>
                     <li><a href="<c:url value='/publicidad'/>"><span class="material-icons">campaign</span>Publicidad</a></li>
                     <li><a href="#"><span class="material-icons">remove_circle</span>Salidas</a></li>
-                    <li><a href="#"><span class="material-icons">analytics</span>Métricas</a></li>
-                    <li><a href="#"><span class="material-icons">group</span>Gestión Usuarios</a></li>
+                    <li><a href="<c:url value='/metricas'/>"><span class="material-icons">analytics</span>Métricas</a></li>
+                    <li><a href="<c:url value='/gestion-usuarios'/>"><span class="material-icons">group</span>Gestión Usuarios</a></li>
                     <li><a href="#"><span class="material-icons">settings</span>Configuración</a></li>
                 </ul>
             </nav>
