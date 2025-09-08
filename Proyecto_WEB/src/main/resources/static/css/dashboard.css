@@ -89,6 +89,7 @@ body {
     padding: 30px;
     display: flex;
     flex-direction: column;
+    min-height: 0; /* Añadido para un correcto cálculo de flex en algunos navegadores */
     gap: 30px;
 }
 

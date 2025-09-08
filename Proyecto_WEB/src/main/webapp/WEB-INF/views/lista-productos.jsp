@@ -8,7 +8,7 @@
     <title>Lista de Productos</title>
     <link rel="stylesheet" href="<c:url value='/css/dashboard.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/lista-productos.css'/>">
-    <link rel="stylesheet" href="<c:url value='/css/catalogo.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/creacion-producto.css'/>">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>

@@ -22,10 +22,10 @@
         </div>
         <nav class="nav-menu">
             <ul>
-                <li><a href="<c:url value='/dashboard'/>"><span class="material-icons">dashboard</span>Dashboard</a></li>
+                <li class="active"><a href="<c:url value='/dashboard'/>"><span class="material-icons">dashboard</span>Dashboard</a></li>
                 <li><a href="<c:url value='/catalogo'/>"><span class="material-icons">grid_view</span>Catálogo Productos</a></li>
                 <li><a href="<c:url value='/lista-productos'/>"><span class="material-icons">list</span>Lista de Productos</a></li>
-                <li class="active"><a href="<c:url value='/contacto'/>"><span class="material-icons">campaign</span>Contacto</a></li>
+                <li><a href="<c:url value='/publicidad'/>"><span class="material-icons">campaign</span>Publicidad</a></li>
                 <li><a href="#"><span class="material-icons">remove_circle</span>Salidas</a></li>
                 <li><a href="<c:url value='/metricas'/>"><span class="material-icons">analytics</span>Métricas</a></li>
                 <li><a href="<c:url value='/gestion-usuarios'/>"><span class="material-icons">group</span>Gestión Usuarios</a></li>
@@ -68,22 +68,20 @@
                 </div>
             </form>
         </section>
-
-        <!-- Footer -->
-        <footer class="main-footer">
-            <div class="footer-item">
-                <a href="<c:url value='/contacto'/>">Contacto</a>
-            </div>
-            <div class="footer-item">
-                <a href="#">Redes Sociales</a>
-            </div>
-            <div class="footer-item">
-                <a href="<c:url value='/direccion'/>">Dirección</a>
-            </div>
-        </footer>
-
     </main>
 
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-item">
+            <a href="<c:url value='/contacto'/>">Contacto</a>
+        </div>
+        <div class="footer-item">
+            <a href="#">Redes Sociales</a>
+        </div>
+        <div class="footer-item">
+            <a href="<c:url value='/direccion'/>">Dirección</a>
+        </div>
+    </footer>
 </div>
 
 </body>
