@@ -70,6 +70,11 @@ public class MiControlador {
         return "direccion";
     }
 
+    @GetMapping("/configuracion")
+    public String mostrarConfiguracion() {
+        return "configuracion";
+    }
+
 
     //Ejemplo de envio
     @PostMapping("/contacto")
@@ -87,6 +92,23 @@ public class MiControlador {
 
         model.addAttribute("successMessage", "Mensaje enviado correctamente!");
         return "contacto"; // recarga la página de contacto
+    }
+
+    @PostMapping("/configuracion")
+    public String procesarConfiguracion(@RequestParam("nombreEmpresa") String nombreEmpresa,
+                                        @RequestParam("emailEmpresa") String emailEmpresa,
+                                        @RequestParam("telefono") String telefono,
+                                        @RequestParam("direccion") String direccion,
+                                        Model model) {
+        // Aquí podrías guardar la configuración en la DB
+        System.out.println("Configuración actualizada:");
+        System.out.println("Nombre Empresa: " + nombreEmpresa);
+        System.out.println("Email: " + emailEmpresa);
+        System.out.println("Teléfono: " + telefono);
+        System.out.println("Dirección: " + direccion);
+
+        model.addAttribute("successMessage", "¡Configuración actualizada con éxito!");
+        return "configuracion";
     }
     
 }

@@ -29,7 +29,7 @@
                 <li><a href="#"><span class="material-icons">remove_circle</span>Salidas</a></li>
                 <li><a href="<c:url value='/metricas'/>"><span class="material-icons">analytics</span>Métricas</a></li>
                 <li><a href="<c:url value='/gestion-usuarios'/>"><span class="material-icons">group</span>Gestión Usuarios</a></li>
-                <li><a href="#"><span class="material-icons">settings</span>Configuración</a></li>
+                <li><a href="<c:url value='/configuracion'/>"><span class="material-icons">settings</span>Configuración</a></li>
             </ul>
         </nav>
     </aside>
@@ -40,7 +40,7 @@
             <h1>Nuestra Ubicación y Contacto</h1>
         </header>
 
-        <!-- Información de la empresa -->
+        <!-- Info de la empresa -->
         <section class="info-section">
             <p><strong>Nombre de la empresa:</strong> Sistema de Almacén S.A.</p>
             <p><strong>Dirección:</strong> Av. Principal 123, Ciudad, País</p>
