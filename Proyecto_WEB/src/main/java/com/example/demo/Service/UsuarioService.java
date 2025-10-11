@@ -29,15 +29,15 @@ public class UsuarioService {
     
     public Usuario crearNuevoUsuario(String nombre, String email, String rol, String estado) {
 
-        // 1. Validar la Regla de Negocio del Email
+        // Validar la Regla de Negocio del Email
         if (!email.toLowerCase().endsWith("@gmail.com")) {
             throw new IllegalArgumentException("El email debe ser una cuenta @gmail.com.");
         }
 
-        // 2. Generar Contraseña Plana de 8 dígitos
+        // Generar Contraseña de 8 dígitos
         String contrasenaPlana = generarContrasenaAleatoria(); 
 
-        // 3. Crear el Objeto Usuario
+        // Crear el Objeto Usuario
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombre(nombre);
         nuevoUsuario.setEmail(email);
@@ -45,17 +45,17 @@ public class UsuarioService {
         nuevoUsuario.setEstado(estado);
         nuevoUsuario.setPassword(contrasenaPlana);
 
-        // 4. Guardar el Usuario en H2
+        // Guardar el Usuario en H2
         Usuario usuarioGuardado = usuarioRepository.save(nuevoUsuario);
 
-        // 5. Notificar al administrador o mostrar la contraseña
+        // Notificar al administrador o mostrar la contraseña
         System.out.println(" ATENCIÓN: Contraseña generada para el usuario: " + contrasenaPlana);
 
         return usuarioGuardado;
     }
 
     public List<Usuario> obtenerTodosLosUsuarios() {
-    // Llama al método findAll() proporcionado por JpaRepository
+    // Llama al metodo findAll() proporcionado por JpaRepository
     return usuarioRepository.findAll();
     }
 

@@ -114,12 +114,6 @@ public class MiControlador {
         return "publicidad";
     }
 
-    /*/ --- Gestión de Usuarios ---
-    @GetMapping("/gestion-usuarios")
-    public String mostrarGestionUsuarios() {
-        return "gestion-usuarios";
-    }*/
-
     // --- Métricas ---
     @GetMapping("/metricas")
     public String mostrarMetricas() {
