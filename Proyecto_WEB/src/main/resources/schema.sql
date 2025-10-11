@@ -41,3 +41,13 @@ CREATE TABLE ingresos (
     descripcion TEXT,
     FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
 );
+
+CREATE TABLE promociones (
+    id_promocion INT AUTO_INCREMENT PRIMARY KEY,
+    id_producto INT NOT NULL,
+    nombre_promocion VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+);
