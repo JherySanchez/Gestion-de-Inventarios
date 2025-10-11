@@ -11,3 +11,4 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     
     error.textContent = ''; // Pa limpiar
 });
+

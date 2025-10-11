@@ -38,10 +38,15 @@ body {
     grid-area: sidebar;
     background-color: var(--primary-color);
     color: var(--light-text-color);
-    padding: 20px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    /*fijar*/
+    position: fixed;
+    height: 100vh;
+    padding: 10px;
+    width: 250px;
 }
 
 .logo {
@@ -89,8 +94,8 @@ body {
     padding: 30px;
     display: flex;
     flex-direction: column;
-    min-height: 0; /* Añadido para un correcto cálculo de flex en algunos navegadores */
     gap: 30px;
+
 }
 
 .main-header {

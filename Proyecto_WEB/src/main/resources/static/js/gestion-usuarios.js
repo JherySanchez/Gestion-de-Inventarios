@@ -1,73 +1,123 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const userModal = document.getElementById('user-modal'); 
+    if (!userModal) {
+        console.error("El elemento con ID 'user-modal' no fue encontrado. El modal no funcionará.");
+        return;
+    }
     
-    // Datos de ejemplo para la tabla de usuarios
-    let usuarios = [
-        { id: 1, nombre: 'Juan Pérez', email: 'juan.perez@almacen.com', rol: 'Administrador', estado: 'Activo' },
-        { id: 2, nombre: 'María López', email: 'maria.lopez@almacen.com', rol: 'Empleado', estado: 'Activo' },
-        { id: 3, nombre: 'Carlos Ruiz', email: 'carlos.ruiz@almacen.com', rol: 'Empleado', estado: 'Inactivo' },
-        { id: 4, nombre: 'Ana García', email: 'ana.garcia@almacen.com', rol: 'Administrador', estado: 'Activo' },
-    ];
-
+    // Botones y formulario
+    const addUserButton = document.getElementById('addUserButton');
+    const userForm = document.getElementById('user-form');
     const userTableBody = document.getElementById('userTableBody');
+    const closeModalBtn = userModal.querySelector('.close-btn');
+    
+    // Elementos del formulario
+    const modalTitle = document.getElementById('modal-title');
+    const inputId = document.getElementById('user-id');
+    const inputNombre = document.getElementById('user-name');
+    const inputEmail = document.getElementById('user-email');
+    const inputRol = document.getElementById('user-rol');
+    
+    /** Funcion para ocultar el modal */
+    function closeUserModal() {
+        userModal.classList.add('hidden');
+        userForm.reset();
+        userForm.action = '/gestion-usuarios/agregar'; 
+    }
+    
+    /** * Función principal para mostrar el modal y configurar el formulario.
+     * @param {string} title - Título del modal.
+     * @param {string} actionUrl - La URL de acción del formulario (agregar o editar).
+     * @param {boolean} isEdit - Si es modo edición.
+     * @param {object} userData - Datos del usuario si es modo edición.
+     */
+    function showUserModal(title, actionUrl, isEdit = false, userData = {}) {
+        modalTitle.textContent = title;
+        userForm.action = actionUrl;
+        
+        if (isEdit) {
+            // Modo Editar: Llenar el formulario con datos
+            inputId.value = userData.id || '';
+            inputNombre.value = userData.nombre || '';
+            inputEmail.value = userData.email || '';
+            inputRol.value = userData.rol || '';
+            
+        } else {
+            // Modo Añadir: Limpiar formulario
+            userForm.reset(); 
+            inputId.value = ''; 
+        }
 
-    // Función para renderizar la tabla con los datos
-    function renderTable(data) {
-        userTableBody.innerHTML = '';
-        data.forEach(user => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${user.id}</td>
-                <td>${user.nombre}</td>
-                <td>${user.email}</td>
-                <td>${user.rol}</td>
-                <td><span class="status ${user.estado.toLowerCase()}">${user.estado}</span></td>
-                <td class="actions-cell">
-                    <button class="action-button edit-btn" data-id="${user.id}" title="Editar">
-                        <span class="material-icons">edit</span>
-                    </button>
-                    <button class="action-button delete-btn" data-id="${user.id}" title="Eliminar">
-                        <span class="material-icons">delete</span>
-                    </button>
-                </td>
-            `;
-            userTableBody.appendChild(row);
+        userModal.classList.remove('hidden'); // Muestra el modal
+    }
+
+    // Abrir Modal para Crear Usuario (Boton principal "Agregar Usuario")
+    if (addUserButton) {
+        addUserButton.addEventListener('click', () => {
+            const createUrl = '/gestion-usuarios/agregar'; // Ruta de creación
+            showUserModal('Añadir Nuevo Usuario', createUrl, false);
         });
     }
 
-    // Inicializar la tabla
-    renderTable(usuarios);
+    // Cerrar modal con el botón 'X'
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeUserModal);
+    }
 
-    // Lógica para los botones de la tabla (Editar y Eliminar)
+    // Cerrar el modal al hacer clic fuera de él
+    window.addEventListener('click', (e) => {
+        if (e.target === userModal) {
+            closeUserModal();
+        }
+    });
+
+    
+    // Lgica de Botones de la Tabla (Editar y Eliminar)
+    
     userTableBody.addEventListener('click', (e) => {
+        
+        // Manejar el botón EDITAR
         if (e.target.closest('.edit-btn')) {
-            const userId = parseInt(e.target.closest('.edit-btn').getAttribute('data-id'));
-            const userToEdit = usuarios.find(user => user.id === userId);
-            alert(`Editar usuario: ${userToEdit.nombre}`);
-            // Aquí puedes redirigir a un formulario de edición o abrir un modal
+            const row = e.target.closest('tr');
+            const userId = row.querySelector('.edit-btn').getAttribute('data-id');
+            
+            const userData = {
+                id: userId,
+                nombre: row.cells[1].textContent, // Columna Nombre
+                email: row.cells[2].textContent,  // Columna Email
+                rol: row.cells[3].textContent,    // Columna Rol
+            };
+            
+            const editUrl = `/gestion-usuarios/editar/${userId}`; 
+            
+            showUserModal('Editar Usuario', editUrl, true, userData);
+
+        // Manejar el boton ELIMINAR
         } else if (e.target.closest('.delete-btn')) {
-            const userId = parseInt(e.target.closest('.delete-btn').getAttribute('data-id'));
-            const userToDelete = usuarios.find(user => user.id === userId);
-            if (confirm(`¿Estás seguro de que quieres eliminar a ${userToDelete.nombre}?`)) {
-                usuarios = usuarios.filter(user => user.id !== userId);
-                alert(`Usuario ${userToDelete.nombre} eliminado.`);
-                renderTable(usuarios);
+            const userId = e.target.closest('.delete-btn').getAttribute('data-id');
+            const userName = e.target.closest('tr').cells[1].textContent;
+            
+            if (confirm(`¿Estás seguro de que quieres eliminar a ${userName}?`)) {
+                window.location.href = `/gestion-usuarios/eliminar/${userId}`; 
             }
         }
     });
 
-    // Lógica para el botón "Agregar Usuario"
-    document.getElementById('addUserButton').addEventListener('click', () => {
-        alert('Redirigiendo a la página para agregar un nuevo usuario.');
-        // Aquí puedes redirigir a un formulario de creación de usuario
-    });
+    const searchButton = document.getElementById('searchButton');
+    const searchInput = document.getElementById('searchInput');
 
-    // Lógica para el buscador
-    document.getElementById('searchButton').addEventListener('click', () => {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const filteredUsers = usuarios.filter(user => 
-            user.nombre.toLowerCase().includes(searchTerm) || 
-            user.email.toLowerCase().includes(searchTerm)
-        );
-        renderTable(filteredUsers);
-    });
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
+            const searchTerm = searchInput.value;
+            window.location.href = `/gestion-usuarios?search=${encodeURIComponent(searchTerm)}`;
+        });
+        
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+        }
+    }
 });

@@ -1,24 +1,26 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+    // Elementos del DOM
     const openModalBtn = document.getElementById('openModalBtn');
     const productModal = document.getElementById('product-modal');
     const closeModalBtn = productModal.querySelector('.close-btn');
     const productForm = document.getElementById('product-form');
     
-    //Muestra el modal
+    // Función para mostrar el modal en modo "Añadir"
     function openAddModal() {
-        productForm.reset();
+        productForm.reset(); // Limpiar formulario
         document.getElementById('product-id').value = ''; // Asegurarse que no hay ID
         document.getElementById('modal-title').textContent = 'Añadir Nuevo Producto';
         productModal.classList.remove('hidden');
     }
 
-    // Muestra el modal en vista editar
+    // Función para mostrar el modal en modo "Editar"
     function openEditModal(producto) {
         productForm.reset();
+        // Llenar el formulario con los datos del producto
         document.getElementById('product-id').value = producto.id;
         document.getElementById('product-name').value = producto.nombre;
-        document.getElementById('product-price').value = producto.precio || '';//Por ahora no toma precios
+        document.getElementById('product-price').value = producto.precio || ''; // Asumiendo que puede no tener precio en el catálogo
         document.getElementById('product-stock').value = producto.stock;
         document.getElementById('product-image').value = producto.imagen;
         document.getElementById('product-description').value = producto.descripcion;
@@ -27,9 +29,10 @@ document.addEventListener('DOMContentLoaded', function() {
         productModal.classList.remove('hidden');
     }
 
+    // Función para ocultar el modal
     function closeModal() {
         productModal.classList.add('hidden');
-        productForm.reset();
+        productForm.reset(); // Limpiar el formulario al cerrar
     }
 
     window.openEditModal = openEditModal; // Hacemos la función accesible globalmente
@@ -38,13 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
     openModalBtn.addEventListener('click', openAddModal);
     closeModalBtn.addEventListener('click', closeModal);
 
-    // Cierra el modal al hacer click afuera
+    // Cerrar el modal al hacer clic fuera de él
     window.addEventListener('click', (e) => {
         if (e.target === productModal) {
             closeModal();
         }
     });
 
+    // Manejar el envío del formulario
     productForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -61,13 +65,16 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         if (productId) {
-            // Logica para MODIFICAR
+            // Lógica para MODIFICAR
             console.log("Producto a modificar:", productData);
             alert(`Producto "${productData.nombre}" modificado con éxito.`);
+            // Aquí deberías actualizar la tarjeta en el DOM o recargar la lista
         } else {
-            // Logica para CREAR
+            // Lógica para CREAR
             console.log("Nuevo producto a crear:", productData);
             alert(`Producto "${productData.nombre}" creado con éxito.`);
+            // Aquí deberías crear una nueva tarjeta y añadirla al grid
+            //generar un id unico para los productos
             productData.id = Date.now();
             //creamos tarjeta para el producto 
             if (typeof createProductCard === 'function'){
@@ -80,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert(`Producto "${productData.nombre}" añadido correctamente.`);
         }
         
-        // Cierra el modal despues de operación exitosa
+        // Cerrar el modal después de la operación exitosa
         closeModal();
     });
 });

@@ -16,24 +16,7 @@
 <div class="container">
         
     <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <span class="material-icons">inventory_2</span>
-            <h2>Sistema de Almacén</h2>
-        </div>
-        <nav class="nav-menu">
-            <ul>
-                <li><a href="<c:url value='/dashboard'/>"><span class="material-icons">dashboard</span>Dashboard</a></li>
-                <li><a href="<c:url value='/catalogo'/>"><span class="material-icons">grid_view</span>Catálogo Productos</a></li>
-                <li><a href="<c:url value='/lista-productos'/>"><span class="material-icons">list</span>Lista de Productos</a></li>
-                <li><a href="<c:url value='/publicidad'/>"><span class="material-icons">campaign</span>Publicidad</a></li>
-                <li><a href="#"><span class="material-icons">remove_circle</span>Salidas</a></li>
-                <li><a href="<c:url value='/metricas'/>"><span class="material-icons">analytics</span>Métricas</a></li>
-                <li><a href="<c:url value='/gestion-usuarios'/>"><span class="material-icons">group</span>Gestión Usuarios</a></li>
-                <li class="active"><a href="<c:url value='/configuracion'/>"><span class="material-icons">settings</span>Configuración</a></li>
-            </ul>
-        </nav>
-    </aside>
+    <jsp:include page="/WEB-INF/views/sidebar.jsp" />
 
     <!-- Main Content -->
     <main class="main-content">
@@ -115,6 +98,7 @@
             <div class="config-card logout-card">
                 <h2><span class="material-icons">logout</span> Cerrar Sesión</h2>
                 <p>¿Deseas salir del sistema?</p>
+                <br>
                 <div class="form-actions">
                     <a href="<c:url value='/login'/>" class="logout-btn">Cerrar Sesión</a>
                 </div>
@@ -123,17 +107,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="main-footer">
-        <div class="footer-item">
-            <a href="<c:url value='/contacto'/>">Contacto</a>
-        </div>
-        <div class="footer-item">
-            <a href="#">Redes Sociales</a>
-        </div>
-        <div class="footer-item">
-            <a href="<c:url value='/direccion'/>">Dirección</a>
-        </div>
-    </footer>
+    <jsp:include page="/WEB-INF/views/footer.jsp" />
 </div>
 
 <script src="<c:url value='/js/configuracion.js'/>"></script>

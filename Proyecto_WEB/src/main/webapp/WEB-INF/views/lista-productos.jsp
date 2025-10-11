@@ -15,24 +15,8 @@
 
     <div class="container">
         
-        <aside class="sidebar">
-            <div class="logo">
-                <span class="material-icons">inventory_2</span>
-                <h2>Sistema de Almacén</h2>
-            </div>
-            <nav class="nav-menu">
-                <ul>
-                    <li><a href="<c:url value='/dashboard'/>"><span class="material-icons">dashboard</span>Dashboard</a></li>
-                    <li><a href="<c:url value='/catalogo'/>"><span class="material-icons">grid_view</span>Catálogo Productos</a></li>
-                    <li class="active"><a href="<c:url value='/lista-productos'/>"><span class="material-icons">list</span>Lista de Productos</a></li>
-                    <li><a href="<c:url value='/publicidad'/>"><span class="material-icons">campaign</span>Publicidad</a></li>
-                    <li><a href="#"><span class="material-icons">remove_circle</span>Salidas</a></li>
-                    <li><a href="<c:url value='/metricas'/>"><span class="material-icons">analytics</span>Métricas</a></li>
-                    <li><a href="<c:url value='/gestion-usuarios'/>"><span class="material-icons">group</span>Gestión Usuarios</a></li>
-                    <li><a href="<c:url value='/configuracion'/>"><span class="material-icons">settings</span>Configuración</a></li>
-                </ul>
-            </nav>
-        </aside>
+        <!-- Sidebar -->
+            <jsp:include page="/WEB-INF/views/sidebar.jsp" />
 
         <main class="main-content">
             <header class="main-header">
@@ -49,8 +33,10 @@
             <section class="list-section">
                 <div class="list-actions">
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Buscar por nombre o código...">
-                        <button id="searchButton"><span class="material-icons">search</span></button>
+                        <form action="/buscar-productos" method="get">
+                        <input type="text" name="query" id="searchInput" placeholder="Buscar por nombre o código...">
+                        <button id="searchButton" type="submit"><span class="material-icons">search</span></button>
+                        </form>
                     </div>
                 </div>
 
@@ -64,24 +50,42 @@
                             <th>Stock</th>
                             <th>Acciones</th>
                         </tr>
+
                     </thead>
                     <tbody id="productTableBody">
-                        </tbody>
+                        <c:if test="${empty miListaProducto}">
+                            <tr>
+                                <td>${miProducto.idProducto}</td>
+                                <td>${miProducto.nombre}</td>
+                                <td>${miProducto.precio}</td>
+                                <td>${miProducto.stock}</td>
+                                <td>${miProducto.estado}</td>
+                            </tr>
+                        </c:if>
+                        <c:forEach var="p" items="${miListaProducto}">
+                            <tr>
+                                <td>${p.idProducto}</td>
+                                <td>${p.nombre}</td>
+                                <td>${p.precio}</td>
+                                <td>${p.stock}</td>
+                                <td>${p.estado}</td>
+                                <td class="actions-cell">
+                                    <button class="edit-btn action-button" data-codigo="${p.idProducto}">
+                                        <span class="material-icons">edit</span>
+                                    </button>
+                                    <button class="delete-btn action-button" data-codigo="${p.idProducto}">
+                                        <span class="material-icons">delete</span>
+                                    </button>
+                                </td>
+                            </tr> 
+                        </c:forEach>
+                    </tbody>
                 </table>
             </section>
         </main>
 
-        <footer class="main-footer">
-            <div class="footer-item">
-                <a href="<c:url value='/contacto'/>">Contacto</a>
-            </div>
-            <div class="footer-item">
-                <a href="#">Redes Sociales</a>
-            </div>
-            <div class="footer-item">
-                <a href="<c:url value='/direccion'/>">Dirección</a>
-            </div>
-        </footer>
+        <!-- Footer -->
+        <jsp:include page="/WEB-INF/views/footer.jsp" />
 
     </div>
     <!-- Modal para agregar/editar producto -->
@@ -92,28 +96,37 @@
             <button class="close-btn">&times;</button>
         </div>
         <div class="modal-body">
-            <form id="product-form">
-                <input type="hidden" id="product-code">
+            <form id="product-form" action="/productos/agregar" method="POST"> 
+                
+                <div class="form-group" id="product-code-group">
+                    <label for="product-code">Código</label>
+                    <input type="text" id="product-code" name="idProducto"> 
+                </div>
+                
                 <div class="form-group">
                     <label for="product-name">Nombre</label>
-                    <input type="text" id="product-name" required>
+                    <input type="text" id="product-name" name="nombre" required>
                 </div>
+                
                 <div class="form-group">
                     <label for="product-price">Precio</label>
-                    <input type="number" id="product-price" step="0.01" required>
+                    <input type="number" id="product-price" name="precio" step="0.01" required>
                 </div>
+                
                 <div class="form-group">
-                    <label for="product-quantity">Cantidad</label>
-                    <input type="number" id="product-quantity" required>
+                    <label for="product-quantity">Stock</label>
+                    <input type="number" id="product-quantity" name="stock" required>
                 </div>
+
                 <div class="form-group">
-                    <label for="product-stock">Stock</label>
-                    <select id="product-stock">
+                    <label for="product-stock">Estado</label>
+                    <select id="product-stock" name="estado"> 
                         <option value="Disponible">Disponible</option>
                         <option value="Bajo">Bajo</option>
                         <option value="Agotado">Agotado</option>
                     </select>
                 </div>
+                
                 <div class="form-actions">
                     <button type="submit" class="save-btn">Guardar</button>
                 </div>

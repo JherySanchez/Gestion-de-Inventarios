@@ -18,6 +18,7 @@
             descripcion: 'Renueva tu espacio de trabajo con precios increibles en todos nuestros productos de oficina.',
             imagen: '/img/Webcam.avif',
         },
+
     ];
 
     const adGrid = document.getElementById('ad-grid');

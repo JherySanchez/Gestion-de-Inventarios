@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="es">
@@ -10,30 +10,16 @@
     <link rel="stylesheet" href="<c:url value='/css/gestion-usuarios.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/catalogo.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/lista-productos.css'/>">
+    
+    <link rel="stylesheet" href="<c:url value='/css/creacion-producto.css'/>">
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
     <div class="container">
         
-        <aside class="sidebar">
-            <div class="logo">
-                <span class="material-icons">inventory_2</span>
-                <h2>Sistema de Almacén</h2>
-            </div>
-            <nav class="nav-menu">
-                <ul>
-                    <li><a href="<c:url value='/dashboard'/>"><span class="material-icons">dashboard</span>Dashboard</a></li>
-                    <li><a href="<c:url value='/catalogo'/>"><span class="material-icons">grid_view</span>Catálogo Productos</a></li>
-                    <li><a href="<c:url value='/lista-productos'/>"><span class="material-icons">list</span>Lista de Productos</a></li>
-                    <li><a href="<c:url value='/publicidad'/>"><span class="material-icons">campaign</span>Publicidad</a></li>
-                    <li><a href="#"><span class="material-icons">remove_circle</span>Salidas</a></li>
-                    <li><a href="<c:url value='/metricas'/>"><span class="material-icons">analytics</span>Métricas</a></li>
-                    <li class="active"><a href="<c:url value='/gestion-usuarios'/>"><span class="material-icons">group</span>Gestión Usuarios</a></li>
-                    <li><a href="<c:url value='/configuracion'/>"><span class="material-icons">settings</span>Configuración</a></li>
-                </ul>
-            </nav>
-        </aside>
+        <jsp:include page="/WEB-INF/views/sidebar.jsp" />
 
         <main class="main-content">
             <header class="main-header">
@@ -41,11 +27,17 @@
                 <div class="header-actions">
                     <button class="add-button" id="addUserButton"><span class="material-icons">person_add</span>Agregar Usuario</button>
                     <div class="user-info">
-                        <span>Hola, Usuario</span>
+                        <span>Hola, Administrador</span>
                         <span class="material-icons">account_circle</span>
                     </div>
                 </div>
             </header>
+            
+            <c:if test="${not empty error}">
+                <div class="alert alert-error" style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                    ${error}
+                </div>
+            </c:if>
             
             <section class="user-management-section">
                 <div class="list-actions">
@@ -67,23 +59,80 @@
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
-                        </tbody>
+                        <c:choose>
+                            <c:when test="${not empty usuarios}">
+                                <c:forEach var="user" items="${usuarios}">
+                                    <tr>
+                                        <td>${user.idUsuario}</td>
+                                        <td>${user.nombre}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.rol}</td>
+                                        <td><span class="status ${user.estado.toLowerCase()}">${user.estado}</span></td>
+                                        <td class="actions-cell">
+                                            <button class="action-button edit-btn" data-id="${user.idUsuario}" title="Editar">
+                                                <span class="material-icons">edit</span>
+                                            </button>
+                                            <button class="action-button delete-btn" data-id="${user.idUsuario}" title="Eliminar">
+                                                <span class="material-icons">delete</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: #777;">No hay usuarios registrados en la base de datos.</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
+                    </tbody>
                 </table>
             </section>
         </main>
-        <footer class="main-footer">
-            <div class="footer-item">
-                <a href="<c:url value='/contacto'/>">Contacto</a>
+        
+        <jsp:include page="/WEB-INF/views/footer.jsp" />
+    </div>
+
+    <div id="user-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Añadir Nuevo Usuario</h2>
+                <button class="close-btn">&times;</button>
             </div>
-            <div class="footer-item">
-                <a href="#">Redes Sociales</a>
+            <div class="modal-body">
+                <form id="user-form" action="<c:url value='/gestion-usuarios/agregar'/>" method="post">
+                    <input type="hidden" id="user-id" name="idUsuario"> 
+                    
+                    <div class="form-group">
+                        <label for="user-name">Nombre del Usuario</label>
+                        <input type="text" id="user-name" name="nombre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="user-email">Email</label>
+                        <input type="email" id="user-email" name="email" required placeholder="Debe terminar en @gmail.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="user-rol">Rol</label>
+                        <select id="user-rol" name="rol" required>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Empleado">Empleado</option>
+                            <option value="Invitado">Invitado</option>
+                        </select>
+                    </div>
+                    
+                    <input type="hidden" name="estado" value="ACTIVO"> 
+
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">Guardar Usuario</button>
+                    </div>
+                </form>
             </div>
-            <div class="footer-item">
-                <a href="<c:url value='/direccion'/>">Dirección</a>
-            </div>
-        </footer>
+        </div>
     </div>
     
     <script src="<c:url value='/js/gestion-usuarios.js'/>"></script>
-</body>
+    
+    </body>
 </html>
