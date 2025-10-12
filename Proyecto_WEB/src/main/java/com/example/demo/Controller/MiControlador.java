@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.Model.Producto;
+import com.example.demo.Repository.ActivitiesDTO;
 import com.example.demo.Service.ProductService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,9 @@ public class MiControlador {
     }
 
     @GetMapping("/dashboard")
-    public String mostrarDashboard() {
+    public String mostrarDashboard(Model model) {
+        List<ActivitiesDTO> listaRegistro = productService.getAllActivitiesService();
+        model.addAttribute("listaRegistros", listaRegistro);
         return "dashboard";
     }
 

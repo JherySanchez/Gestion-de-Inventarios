@@ -48,15 +48,25 @@
             <section class="recent-activity">
                 <h2>Actividad Reciente</h2>
                 <table class="activity-table">
-                    <thead>
+                    <thead >
+
                         <tr>
                             <th>Producto</th>
                             <th>Cantidad</th>
                             <th>Tipo</th>
                             <th>Fecha</th>
                         </tr>
+
                     </thead>
                     <tbody id="activity-body">
+                        <c:forEach var="sae" items="${listaRegistros}">
+                            <tr>
+                                <td>${sae.nombre}</td>
+                                <td>${sae.cantidad}</td>
+                                <td>${sae.tipo}</td>
+                                <td>${sae.fecha}</td>
+                    
+                        </c:forEach>             
                         </tbody>
                 </table>
             </section>
@@ -66,6 +76,6 @@
 
     </div>
 
-    <script src="<c:url value='/js/dashboard.js'/>"></script>
+    <!-- <script src="<c:url value='/js/dashboard.js'/>"></script>*/-->
 </body>
 </html>

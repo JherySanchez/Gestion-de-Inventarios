@@ -4,8 +4,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.Model.Producto;
+import com.example.demo.Repository.ActivitiesDTO;
 import com.example.demo.Repository.ProductoRepository;
 import com.example.demo.Service.ProductService;
+
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -37,5 +39,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(Integer idProducto) {
         productoRepository.deleteById(idProducto);
+    }
+
+    @Override
+    public List<ActivitiesDTO> getAllActivitiesService() {
+      return productoRepository.getAllActivities();
     }
 }

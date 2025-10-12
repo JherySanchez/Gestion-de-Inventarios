@@ -3,6 +3,8 @@ package com.example.demo.Service;
 import java.util.List;
 
 import com.example.demo.Model.Producto;
+import com.example.demo.Repository.ActivitiesDTO;
+
 
 public interface ProductService {
 
@@ -11,5 +13,6 @@ public interface ProductService {
     public void addProduct(Producto producto);
     public void updateProduct(Producto producto);
     public void deleteProduct(Integer idProducto);
+    public List<ActivitiesDTO> getAllActivitiesService();
     
 }
