@@ -3,7 +3,7 @@ package com.example.demo.Service;
 import java.util.List;
 
 import com.example.demo.Model.Producto;
-import com.example.demo.Repository.ActivitiesDTO;
+import com.example.demo.Model.DTO.ActivitiesDTO;
 
 
 public interface ProductService {

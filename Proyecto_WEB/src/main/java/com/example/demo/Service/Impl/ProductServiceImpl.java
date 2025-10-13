@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.Model.Producto;
-import com.example.demo.Repository.ActivitiesDTO;
+import com.example.demo.Model.DTO.ActivitiesDTO;
 import com.example.demo.Repository.ProductoRepository;
 import com.example.demo.Service.ProductService;
 

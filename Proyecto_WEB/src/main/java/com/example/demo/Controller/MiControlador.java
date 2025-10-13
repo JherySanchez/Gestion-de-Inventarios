@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.Model.Producto;
-import com.example.demo.Repository.ActivitiesDTO;
+import com.example.demo.Model.DTO.ActivitiesDTO;
 import com.example.demo.Service.ProductService;
 
 import org.springframework.web.bind.annotation.GetMapping;

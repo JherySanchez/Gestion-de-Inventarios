@@ -1,4 +1,4 @@
-package com.example.demo.Repository;
+package com.example.demo.Model.DTO;
 
 import java.time.LocalDateTime;
 
