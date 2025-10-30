@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import java.math.BigDecimal;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 
@@ -72,5 +74,16 @@ public class Producto {
     public void setEstado(String estado) { 
         this.estado = estado;
     }
+    // dentro de la clase Producto, después de estado...
+    @ManyToOne
+    @JoinColumn(name = "id_tipo", nullable = false)
+    private TipoProducto tipoProducto;
 
+    // getter y setter
+    public TipoProducto getTipoProducto() {
+        return tipoProducto;
+    }
+    public void setTipoProducto(TipoProducto tipoProducto) {
+        this.tipoProducto = tipoProducto;
+    }
 }

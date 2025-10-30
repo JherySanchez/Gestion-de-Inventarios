@@ -6,52 +6,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dirección</title>
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="<c:url value='/css/dashboard.css'/>">
-    <link rel="stylesheet" href="<c:url value='/css/direccion.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/gestion-usuarios.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/lista-productos.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/modal.css'/>">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
 <div class="container">
-
     <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <span class="material-icons">inventory_2</span>
-            <h2>Sistema de Almacén</h2>
-        </div>
-        <nav class="nav-menu">
-            <ul>
-                <li><a href="<c:url value='/dashboard'/>"><span class="material-icons">dashboard</span>Dashboard</a></li>
-                <li><a href="<c:url value='/catalogo'/>"><span class="material-icons">grid_view</span>Catálogo Productos</a></li>
-                <li><a href="<c:url value='/lista-productos'/>"><span class="material-icons">list</span>Lista de Productos</a></li>
-                <li class="active"><a href="<c:url value='/direccion'/>"><span class="material-icons">location_on</span>Dirección</a></li>
-                <li><a href="#"><span class="material-icons">remove_circle</span>Salidas</a></li>
-                <li><a href="<c:url value='/metricas'/>"><span class="material-icons">analytics</span>Métricas</a></li>
-                <li><a href="<c:url value='/gestion-usuarios'/>"><span class="material-icons">group</span>Gestión Usuarios</a></li>
-                <li><a href="<c:url value='/configuracion'/>"><span class="material-icons">settings</span>Configuración</a></li>
-            </ul>
-        </nav>
-    </aside>
+    <jsp:include page="/WEB-INF/views/sidebar.jsp" />
 
-    <!-- Main content -->
+    <!-- Contenido principal -->
     <main class="main-content">
+        <header class="main-header">
+            <h1><span class="material-icons">location_on</span> Dirección</h1>
+            <div class="header-actions">
+                <div class="user-info">
+                    <span>Hola, Usuario</span>
+                    <span class="material-icons">account_circle</span>
+                </div>
+            </div>
+        </header>
 
+        <section class="direccion-section">
+            <div class="direccion-card">
+                <div class="direccion-header">
+                    <span class="material-icons">business</span>
+                    <div>
+                        <h2>Sistema de Almacén S.A.</h2>
+                        <p class="subtitle">Gestión eficiente de inventarios y logística</p>
+                    </div>
+                </div>
 
-        <!-- Información de la empresa -->
-        <section class="info-section">
-            <p><strong>Nombre de la empresa:</strong> Sistema de Almacén S.A.</p>
-            <p><strong>Dirección:</strong> Av. Principal 123, Ciudad, País</p>
-            <p><strong>Teléfono:</strong> +51 999 999 999</p>
-            <p><strong>Email:</strong> contacto@sistemaalmacen.com</p>
-            <p><strong>Redes Sociales:</strong> Facebook / Instagram / Twitter</p>
+                <div class="direccion-info">
+                    <div class="info-item">
+                        <span class="material-icons">place</span>
+                        <p><strong>Dirección:</strong> Av. Principal 123, Ciudad, País</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="material-icons">call</span>
+                        <p><strong>Teléfono:</strong> +51 999 999 999</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="material-icons">email</span>
+                        <p><strong>Email:</strong> contacto@sistemaalmacen.com</p>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
-<!-- Footer fuera de main -->
+
+    <!-- Footer -->
     <jsp:include page="/WEB-INF/views/footer.jsp" />
 </div>
-
-
 
 </body>
 </html>

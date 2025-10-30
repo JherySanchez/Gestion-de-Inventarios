@@ -1,18 +1,10 @@
--- Tabla tipo_producto (simple: id + nombre)
-CREATE TABLE tipo_producto (
-    id_tipo INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
-);
-CREATE TABLE productos ( 
-    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE productos (
+    id_producto int AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    precio DECIMAL(10,2) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL,
-    estado VARCHAR(20) NOT NULL,
-    id_tipo INT NOT NULL,
-    FOREIGN KEY (id_tipo) REFERENCES tipo_producto(id_tipo)
+    estado VARCHAR(20) NOT NULL
 );
-
 
 CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
@@ -59,4 +51,3 @@ CREATE TABLE promociones (
     fecha_fin DATE NOT NULL,
     FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
 );
-

@@ -1,0 +1,167 @@
+/* ===== MODAL PUBLICIDAD ===== */
+
+/* Fondo oscuro difuminado */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(30, 30, 30, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal-backdrop.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Contenedor principal del modal */
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    transform: scale(1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Pequeña animación al aparecer */
+.modal-backdrop:not(.hidden) .modal-content {
+    animation: modalFadeIn 0.35s ease forwards;
+}
+
+@keyframes modalFadeIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Título del modal */
+#modal-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--primary-color, #0077cc);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Estilo del formulario */
+#ad-form .form-group {
+    margin-bottom: 18px;
+}
+
+#ad-form label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+#ad-form input[type="text"],
+#ad-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#ad-form input:focus,
+#ad-form textarea:focus {
+    border-color: var(--primary-color, #0077cc);
+    box-shadow: 0 0 5px rgba(0, 119, 204, 0.3);
+    outline: none;
+}
+
+#ad-form textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+/* Botones dentro del modal */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+#addAdButton {
+    background-color: var(--primary-color, #0077cc);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+#addAdButton:hover {
+    background-color: #005fa3;
+}
+
+.cancel {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.cancel:hover {
+    background-color: #e0e0e0;
+}
+
+/* Botón de cierre (X) */
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+
+.modal-close .material-icons {
+    font-size: 24px;
+}
+#user-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#user-form select:focus {
+    border-color: var(--primary-color, #0077cc);
+    box-shadow: 0 0 5px rgba(0, 119, 204, 0.3);
+    outline: none;
+}

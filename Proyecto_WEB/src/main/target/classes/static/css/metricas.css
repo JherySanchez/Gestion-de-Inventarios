@@ -1,0 +1,23 @@
+.metrics-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.chart-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.chart-card h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+canvas {
+    width: 100% !important;
+    height: 250px !important;
+}

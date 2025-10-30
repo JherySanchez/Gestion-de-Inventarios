@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.Model.Producto;
+import com.example.demo.Model.TipoProducto;
 import com.example.demo.Model.DTO.ActivitiesDTO;
 import com.example.demo.Service.ProductService;
+import com.example.demo.Service.TipoProductoService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,7 +26,10 @@ public class MiControlador {
 
     @Autowired
     private ProductService productService;
-    
+
+    @Autowired
+    private TipoProductoService tipoProductoService;
+
     // --- Login ---
     @GetMapping("/login")
     public String mostrarLogin() {
@@ -33,13 +38,12 @@ public class MiControlador {
 
     @PostMapping("/login")
     public String procesarLogin(@RequestParam("username") String username, 
-                                @RequestParam("password") String password, 
-                                Model model) {
+                                @RequestParam("password") String password) {
         System.out.println("Usuario: " + username);
         System.out.println("Contraseña: " + password);
         return "redirect:/dashboard";
     }
-    
+
     // --- Dashboard ---
     @GetMapping("/")
     public String redirectToLogin() {
@@ -62,15 +66,39 @@ public class MiControlador {
     // --- Lista de Productos ---
     @GetMapping("/lista-productos")
     public String mostrarListaProductos(Model model) {
-        List<Producto> listaProducto= productService.listProduct();
+        List<Producto> listaProducto = productService.listProduct();
         model.addAttribute("miListaProducto", listaProducto);
-        return "lista-productos";
 
+        // Enviamos tipos para el select
+        model.addAttribute("listaTipos", tipoProductoService.listar());
+
+        return "lista-productos";
     }
-    // --- Lista de Productos ---
-    // CAMBIO: Lógica de búsqueda mejorada
+
+    @PostMapping("/productos/agregar")
+    public String agregarOEditarProducto(
+            @ModelAttribute Producto producto,
+            @RequestParam("tipoId") Integer idTipo,
+            RedirectAttributes redirectAttributes) {
+
+        // Buscar el tipo seleccionado
+        TipoProducto tipo = tipoProductoService.buscarPorId(idTipo);
+        producto.setTipoProducto(tipo);
+
+        // Crear o editar
+        if (producto.getIdProducto() != null) {
+            productService.updateProduct(producto);
+            redirectAttributes.addFlashAttribute("successMessage", "Producto actualizado con éxito.");
+        } else {
+            productService.addProduct(producto);
+            redirectAttributes.addFlashAttribute("successMessage", "Producto agregado con éxito.");
+        }
+        return "redirect:/lista-productos";
+    }
+
+    // --- Buscar productos ---
     @GetMapping("/buscar-productos")
-    public String buscarProductos(@RequestParam("query") String query,Model model) {
+    public String buscarProductos(@RequestParam("query") String query, Model model) {
         List<Producto> productosEncontrados = new java.util.ArrayList<>();
         try {
             Integer idProducto = Integer.parseInt(query);
@@ -85,27 +113,13 @@ public class MiControlador {
         return "lista-productos";
     }
 
-    @PostMapping("/productos/agregar")
-    public String agregarOEditarProducto(@ModelAttribute Producto producto, RedirectAttributes redirectAttributes) {
-        
-        // Si el producto tiene un ID, es una actualizacion. Si no, se crea
-        if (producto.getIdProducto() != null) {
-            productService.updateProduct(producto);
-            redirectAttributes.addFlashAttribute("successMessage", "Producto actualizado con éxito.");
-        } else {
-            productService.addProduct(producto);
-            redirectAttributes.addFlashAttribute("successMessage", "Producto agregado con éxito.");
-        }
-        return "redirect:/lista-productos";
-    }
-
+    // --- Eliminar producto ---
     @GetMapping("/productos/eliminar/{idProducto}")
     public String eliminarProducto(@PathVariable("idProducto") Integer idProducto, RedirectAttributes redirectAttributes) {
         try {
             productService.deleteProduct(idProducto);
             redirectAttributes.addFlashAttribute("successMessage", "Producto eliminado con éxito.");
         } catch (DataIntegrityViolationException e) {
-            // Esto ocurre si el producto está en uso (ej. en una venta o ingreso)
             redirectAttributes.addFlashAttribute("errorMessage", "Error: No se puede eliminar el producto porque está en uso en un movimiento (venta o ingreso).");
         }
         return "redirect:/lista-productos";
@@ -129,27 +143,20 @@ public class MiControlador {
         return "contacto";
     }
 
-    @GetMapping("/direccion")
-    public String mostrarDireccion() {
-        return "direccion";
-    }
-
     @PostMapping("/contacto")
     public String procesarContacto(@RequestParam("name") String name,
                                    @RequestParam("email") String email,
                                    @RequestParam("subject") String subject,
                                    @RequestParam("message") String message,
                                    Model model) {
-        // Aquí podrías guardar los datos en DB o enviarlos por email
         System.out.println("Nuevo mensaje de contacto:");
         System.out.println("Nombre: " + name);
         System.out.println("Email: " + email);
         System.out.println("Asunto: " + subject);
         System.out.println("Mensaje: " + message);
 
-        // Mandamos un atributo para mostrar mensaje de éxito en la vista
         model.addAttribute("successMessage", "¡Mensaje enviado correctamente!");
-        return "contacto"; // recarga la página de contacto
+        return "contacto";
     }
 
     // --- Configuración ---
@@ -164,7 +171,6 @@ public class MiControlador {
                                         @RequestParam("telefono") String telefono,
                                         @RequestParam("direccion") String direccion,
                                         Model model) {
-        // Aquí podrías guardar la configuración en la DB
         System.out.println("Configuración actualizada:");
         System.out.println("Nombre Empresa: " + nombreEmpresa);
         System.out.println("Email: " + emailEmpresa);

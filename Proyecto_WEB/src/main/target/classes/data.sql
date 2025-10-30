@@ -1,12 +1,10 @@
 
--- Tipos de productos
-INSERT INTO tipo_producto(nombre) VALUES ('Electronica'), ('Accesorios'), ('Eventos');
-INSERT INTO productos (nombre, precio, stock, estado, id_tipo) VALUES 
-('Laptop Dell XPS 15', 1200.00, 50, 'Disponible', 1),      -- Electrónica
-('Mouse Logitech MX Master', 25.00, 150, 'Disponible', 2), -- Accesorios
-('Monitor LG Ultrawide', 300.00, 30, 'Disponible', 1),     -- Electrónica
-('Teclado HyperX Alloy Rise', 80.00, 20, 'Bajo', 2),       -- Accesorios
-('Audífonos Razer Blackshark V3', 150.00, 10, 'Bajo', 2);  -- Accesorios
+INSERT INTO productos (nombre, precio, stock, estado) VALUES 
+('Laptop Dell XPS 15', 1200.00, 50, 'Disponible'), 
+('Mouse Logitech MX Master', 25.00, 150, 'Disponible'), 
+('Monitor LG Ultrawide', 300.00, 30, 'Disponible'), 
+('Teclado HyperX Alloy Rise', 80.00, 20, 'Bajo'), 
+('Audífonos Razer Blackshark V3', 150.00, 10, 'Bajo');
 
 /*En un futuro se pueden hashear los password*/
 INSERT INTO usuarios (nombre, email, password, rol, estado) VALUES

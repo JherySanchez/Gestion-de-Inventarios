@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-
-    // --- Elementos principales ---
     const productTableBody = document.getElementById('productTableBody');
+    if (!productTableBody) return;
+    
     const modal = document.getElementById('product-modal');
     const form = document.getElementById('product-form');
     const modalTitle = document.getElementById('modal-title');
@@ -11,82 +11,80 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputNombre = document.getElementById('product-name');
     const inputPrecio = document.getElementById('product-price');
     const inputCantidad = document.getElementById('product-quantity');
-    const inputEstado = document.getElementById('product-stock');
-    const inputTipo = document.getElementById('product-type'); // SELECT tipos
+    const inputStock = document.getElementById('product-stock');
 
-    // --- Abrir modal con datos de producto (EDITAR) ---
     productTableBody.addEventListener('click', (e) => {
         const button = e.target.closest('button');
         if (!button) return;
 
         const codigo = button.dataset.codigo;
-
         if (button.classList.contains('edit-btn')) {
+            // Recoger datos de la fila para abrir el modal
+            const row = button.closest('tr');
             const producto = {
                 codigo: codigo,
-                nombre: button.dataset.nombre,
-                precio: button.dataset.precio,
-                stock: button.dataset.stock,
-                estado: button.dataset.estado,
-                tipoId: button.dataset.tipo // viene del SELECT
+                nombre: row.cells[1].textContent,
+                precio: parseFloat(row.cells[2].textContent.replace('S/.', '').trim()),
+                stock: parseInt(row.cells[3].textContent), 
+                estado: row.cells[4].textContent
             };
             openModal(producto);
-        }
-
-        // --- Eliminar producto ---
-        if (button.classList.contains('delete-btn')) {
-            if (confirm(`¿Seguro que deseas eliminar el producto N° ${codigo}?`)) {
+        } else if (button.classList.contains('delete-btn')) {
+            if (confirm(`¿Eliminar producto ${codigo}?`)) {
                 window.location.href = `/productos/eliminar/${codigo}`;
             }
         }
     });
 
-    // --- Abrir modal NUEVO producto ---
     const addProductBtn = document.getElementById('addListedProductBtn');
-    addProductBtn.addEventListener('click', () => {
-        openModal(); // sin producto = nuevo
-    });
+    if (addProductBtn) {
+        addProductBtn.addEventListener('click', () => {
+            openModal();
+        });
+    }
 
-    // --- Función principal para abrir el modal ---
     function openModal(producto = null) {
         form.reset();
         form.action = '/productos/agregar';
-        modal.classList.remove('hidden');
 
         if (producto) {
-            // Editar
-            modalTitle.textContent = 'Editar Producto';
             codeGroup.style.display = 'block';
+            modalTitle.textContent = 'Editar Producto';
             inputCodigo.value = producto.codigo;
-            inputCodigo.readOnly = true;
             inputNombre.value = producto.nombre;
             inputPrecio.value = producto.precio;
             inputCantidad.value = producto.stock;
-            inputEstado.value = producto.estado;
-            inputTipo.value = producto.tipoId || ""; // asigna tipo
+            inputStock.value = producto.estado.trim(); 
+            inputCodigo.readOnly = true;
         } else {
-            // Agregar
-            modalTitle.textContent = 'Agregar Producto';
-            codeGroup.style.display = 'none'; // ocultar código
+            codeGroup.style.display = 'none';
+            modalTitle.textContent = 'Añadir Producto';
+            inputCodigo.value = '';
             inputCodigo.readOnly = false;
-            inputTipo.value = "";
         }
+        modal.classList.remove('hidden');
     }
 
-    // --- Cerrar modal ---
-    document.querySelector('.close-btn').addEventListener('click', () => {
-        modal.classList.add('hidden');
-    });
+    modal.querySelector('.close-btn').addEventListener('click', () => modal.classList.add('hidden'));
     window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.add('hidden');
-        }
+        if (e.target === modal) modal.classList.add('hidden');
     });
 
-    // --- Ocultar mensajes de éxito/error si hay ---
+    // Mensajes de feedback (éxito o error)
     const successMessage = document.querySelector('.alert-success');
+    if (successMessage) {
+        setTimeout(() => successMessage.style.display = 'none', 4000);
+    }
     const errorMessage = document.querySelector('.alert-danger');
-    if (successMessage) setTimeout(() => successMessage.style.display = 'none', 4000);
-    if (errorMessage) setTimeout(() => errorMessage.style.display = 'none', 4000);
-
+    if (errorMessage) {
+        setTimeout(() => errorMessage.style.display = 'none', 4000);
+    }
+    
+    const searchButton = document.getElementById('searchButton');
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
+            const term = document.getElementById('searchInput').value;
+            window.location.href = `/buscar-productos?query=${encodeURIComponent(term)}`;
+        });
+    }
 });
