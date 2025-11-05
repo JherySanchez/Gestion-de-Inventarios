@@ -180,4 +180,14 @@ public class MiControlador {
         model.addAttribute("successMessage", "¡Configuración actualizada con éxito!");
         return "configuracion";
     }
+    //-- redes sociales ---
+    @GetMapping("/redes-sociales")
+    public String mostrarRedesSociales() {
+        return "redes-sociales";
+    }
+    //--direccion---
+    @GetMapping("/direccion")
+    public String mostrarDireccion() {
+        return "direccion";
+    }
 }
