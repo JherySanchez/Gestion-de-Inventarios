@@ -14,6 +14,9 @@ import com.example.demo.Model.DTO.ActivitiesDTO;
 import com.example.demo.Service.ProductService;
 import com.example.demo.Service.TipoProductoService;
 
+import com.example.demo.Model.Usuario;
+import com.example.demo.Service.UsuarioService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +33,9 @@ public class MiControlador {
     @Autowired
     private TipoProductoService tipoProductoService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     // --- Login ---
     @GetMapping("/login")
     public String mostrarLogin() {
@@ -38,10 +44,19 @@ public class MiControlador {
 
     @PostMapping("/login")
     public String procesarLogin(@RequestParam("username") String username, 
-                                @RequestParam("password") String password) {
-        System.out.println("Usuario: " + username);
-        System.out.println("Contraseña: " + password);
-        return "redirect:/dashboard";
+                                @RequestParam("password") String password,
+                                RedirectAttributes redirectAttributes) {
+
+        Usuario usuarioValidado = usuarioService.validarLogin(username, password);
+
+        if (usuarioValidado != null) {
+            System.out.println("Login exitoso para: " + usuarioValidado.getNombre());
+            return "redirect:/dashboard";
+        } else {
+            System.out.println("Login fallido para el email: " + username);
+            redirectAttributes.addFlashAttribute("errorMessage", "Credenciales incorrectas o usuario inactivo.");
+            return "redirect:/login";
+        }
     }
 
     // --- Dashboard ---

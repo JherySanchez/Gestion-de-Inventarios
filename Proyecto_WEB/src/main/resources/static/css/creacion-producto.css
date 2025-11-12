@@ -80,12 +80,15 @@
 .modal-body input[type="text"],
 .modal-body input[type="number"],
 .modal-body input[type="url"],
+.modal-body input[type="email"],
+.modal-body select,
 .modal-body textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
+    background-color: #fff;
 }
 
 .modal-body textarea {

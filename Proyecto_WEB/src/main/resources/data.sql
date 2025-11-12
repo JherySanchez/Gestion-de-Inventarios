@@ -10,11 +10,11 @@ INSERT INTO productos (nombre, precio, stock, estado, id_tipo) VALUES
 
 /*En un futuro se pueden hashear los password*/
 INSERT INTO usuarios (nombre, email, password, rol, estado) VALUES
-('Juan Pérez', 'juan.perez@tienda.com', 'password1', 'Administrador', 'ACTIVO'),
-('Ana García', 'ana.garcia@tienda.com', 'password2', 'Empleado', 'ACTIVO'),
-('Carlos Ruiz', 'carlos.ruiz@tienda.com', 'password3', 'Empleado', 'INACTIVO'),
-('Maria López', 'maria.lopez@tienda.com', 'password4', 'Invitado', 'ACTIVO'),
-('David Sánz', 'david.sanz@tienda.com', 'password5', 'Administrador', 'ACTIVO');
+('Juan Pérez', 'juan.perez@gmail.com', 'password1', 'Administrador', 'ACTIVO'),
+('Ana García', 'ana.garcia@gmail.com', 'password2', 'Empleado', 'ACTIVO'),
+('Carlos Ruiz', 'carlos.ruiz@gmail.com', 'password3', 'Empleado', 'INACTIVO'),
+('Maria López', 'maria.lopez@gmail.com', 'password4', 'Invitado', 'ACTIVO'),
+('David Sánz', 'david.sanz@gmail.com', 'password5', 'Administrador', 'ACTIVO');
 
 -- Ingreso #1 (ID auto: 1)
 INSERT INTO ingresos (id_producto, cantidad, descripcion, fecha_ingreso) VALUES 

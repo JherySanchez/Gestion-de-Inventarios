@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputNombre = document.getElementById('user-name');
     const inputEmail = document.getElementById('user-email');
     const inputRol = document.getElementById('user-rol');
+    const inputEstado = document.getElementById('user-estado');
     
     /** Funcion para ocultar el modal */
     function closeUserModal() {
@@ -41,11 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
             inputNombre.value = userData.nombre || '';
             inputEmail.value = userData.email || '';
             inputRol.value = userData.rol || '';
+            inputEstado.value = userData.estado || 'ACTIVO';
             
         } else {
             // Modo Añadir: Limpiar formulario
             userForm.reset(); 
-            inputId.value = ''; 
+            inputId.value = '';
+            inputEstado.value = 'ACTIVO'; //Al añadir por defecto esta activo 
         }
 
         userModal.classList.remove('hidden'); // Muestra el modal
@@ -86,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 nombre: row.cells[1].textContent, // Columna Nombre
                 email: row.cells[2].textContent,  // Columna Email
                 rol: row.cells[3].textContent,    // Columna Rol
+                estado: row.cells[4].textContent.trim()   // Columna Estado
             };
             
             const editUrl = `/gestion-usuarios/editar/${userId}`; 

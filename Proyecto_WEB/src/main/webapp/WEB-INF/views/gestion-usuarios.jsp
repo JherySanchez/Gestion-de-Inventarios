@@ -121,8 +121,14 @@
                             <option value="Invitado">Invitado</option>
                         </select>
                     </div>
-                    
-                    <input type="hidden" name="estado" value="ACTIVO"> 
+
+                    <div class="form-group">
+                        <label for="user-estado">Estado</label>
+                        <select id="user-estado" name="estado" required>
+                            <option value="ACTIVO">Activo</option>
+                            <option value="INACTIVO">Inactivo</option>
+                        </select>
+                    </div>
 
                     <div class="form-actions">
                         <button type="submit" class="save-btn">Guardar Usuario</button>

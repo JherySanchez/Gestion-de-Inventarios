@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import com.example.demo.Model.Usuario;
 import com.example.demo.Repository.UsuarioRepository;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -66,11 +67,32 @@ public class UsuarioService {
         usuarioExistente.setNombre(usuarioNuevo.getNombre());
         usuarioExistente.setEmail(usuarioNuevo.getEmail());
         usuarioExistente.setRol(usuarioNuevo.getRol());
+        usuarioExistente.setEstado(usuarioNuevo.getEstado());
         usuarioRepository.save(usuarioExistente);
     }
 
     public void eliminarUsuario(Integer id) {
         usuarioRepository.deleteById(id);
+    }
+
+    public Usuario validarLogin(String email, String password) {
+        
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
+
+        if (usuarioOpt.isEmpty()) {
+            return null;
+        }
+
+        Usuario usuario = usuarioOpt.get();
+
+        if (!usuario.getPassword().equals(password)) {
+            return null;
+        }
+        
+        if (!usuario.getEstado().equalsIgnoreCase("ACTIVO")) {
+            return null; // El usuario existe pero está inactivo
+        }
+        return usuario;
     }
 
 

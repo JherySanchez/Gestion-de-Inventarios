@@ -25,15 +25,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/agregar")
-    public String agregarUsuario(
-            @RequestParam String nombre,
-            @RequestParam String email,
-            @RequestParam String rol,
-            @RequestParam String estado,
-            Model model) {
+    public String agregarUsuario(@ModelAttribute Usuario usuario, Model model) {
         try {
-            usuarioService.crearNuevoUsuario(nombre, email, rol, estado);
-            
+            usuarioService.crearNuevoUsuario(usuario.getNombre(), usuario.getEmail(), usuario.getRol(), usuario.getEstado());
             return "redirect:/gestion-usuarios"; 
             
         } catch (IllegalArgumentException e) {
