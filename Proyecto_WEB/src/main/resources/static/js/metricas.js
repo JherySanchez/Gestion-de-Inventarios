@@ -1,79 +1,94 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // grafica de barras
-  const barCtx = document.getElementById("barChart").getContext("2d");
-  new Chart(barCtx, {
+document.addEventListener('DOMContentLoaded', async () => {
+  async function fetchData(url) {
+    const res = await fetch(url);
+    return await res.json();
+  }
+
+  // Productos más vendidos
+  const productos = await fetchData('/metricas/productos-vendidos');
+  new Chart(document.getElementById("barChart"), {
     type: "bar",
     data: {
-      labels: ["Laptop", "Mouse", "Monitor", "Teclado", "Audífonos"],
-      datasets: [
-        {
-          label: "Unidades vendidas",
-          data: [50, 120, 75, 40, 30],
-          backgroundColor: "rgba(54, 162, 235, 0.7)",
-          borderColor: "rgba(54, 162, 235, 1)",
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: { beginAtZero: true },
-      },
-    },
+      labels: Object.keys(productos),
+      datasets: [{
+        label: "Unidades vendidas",
+        data: Object.values(productos),
+        backgroundColor: "rgba(54, 162, 235, 0.7)",
+      }]
+    }
   });
 
-  // grafico de lineas
-  const lineCtx = document.getElementById("lineChart").getContext("2d");
-  new Chart(lineCtx, {
+  // Ventas mensuales
+  const ventas = await fetchData('/metricas/ventas-mensuales');
+  new Chart(document.getElementById("lineChart"), {
     type: "line",
     data: {
-      labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
-      datasets: [
-        {
-          label: "Ventas",
-          data: [500, 700, 800, 600, 900, 1200],
-          backgroundColor: "rgba(255, 99, 132, 0.2)",
-          borderColor: "rgba(255, 99, 132, 1)",
-          borderWidth: 2,
-          fill: true,
-          tension: 0.4,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: { beginAtZero: true },
-      },
-    },
+      labels: Object.keys(ventas),
+      datasets: [{
+        label: "Ventas (S/.)",
+        data: Object.values(ventas),
+        borderColor: "rgba(255, 99, 132, 1)",
+        fill: true,
+        tension: 0.4
+      }]
+    }
   });
 
-  // grafica de torta
-  const pieCtx = document.getElementById("pieChart").getContext("2d");
-  new Chart(pieCtx, {
+  // Estado del stock
+  const stock = await fetchData('/metricas/stock');
+  new Chart(document.getElementById("pieChart"), {
     type: "pie",
     data: {
-      labels: ["Disponible", "Bajo", "Agotado"],
-      datasets: [
-        {
-          data: [60, 25, 15],
-          backgroundColor: [
-            "rgba(75, 192, 192, 0.7)",
-            "rgba(255, 206, 86, 0.7)",
-            "rgba(255, 99, 132, 0.7)",
-          ],
-          borderColor: [
-            "rgba(75, 192, 192, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(255, 99, 132, 1)",
-          ],
-          borderWidth: 1,
-        },
-      ],
+      labels: Object.keys(stock),
+      datasets: [{
+        data: Object.values(stock),
+        backgroundColor: [
+          "rgba(75, 192, 192, 0.7)",
+          "rgba(255, 206, 86, 0.7)",
+          "rgba(255, 99, 132, 0.7)"
+        ]
+      }]
+    }
+  });
+
+  // Ventas mensuales por producto
+  const ventasMensuales = await fetchData('/metricas/ventas-mensuales-por-producto');
+
+  const meses = Object.keys(ventasMensuales);
+  const productosSet = new Set();
+
+  Object.values(ventasMensuales).forEach(mesData => {
+    Object.keys(mesData).forEach(p => productosSet.add(p));
+  });
+  const productosUnicos = Array.from(productosSet);
+
+  const datasets = productosUnicos.map(prod => ({
+    label: prod,
+    data: meses.map(m => ventasMensuales[m][prod] || 0),
+    backgroundColor: `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, 0.7)`
+  }));
+
+  new Chart(document.getElementById("ventasMensualesChart"), {
+    type: "bar",
+    data: {
+      labels: meses,
+      datasets: datasets
     },
     options: {
       responsive: true,
-    },
+      plugins: {
+        title: {
+          display: true,
+          text: "Ventas mensuales por producto (2025)"
+        },
+        legend: {
+          position: "bottom"
+        }
+      },
+      scales: {
+        x: { stacked: true },
+        y: { stacked: true, beginAtZero: true }
+      }
+    }
   });
 });

@@ -41,6 +41,7 @@
                 <h3>Estado de stock</h3>
                 <canvas id="pieChart"></canvas>
             </div>
+
         </section>
     </main>
 

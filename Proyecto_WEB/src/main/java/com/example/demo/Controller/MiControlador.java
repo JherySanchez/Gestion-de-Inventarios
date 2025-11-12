@@ -146,11 +146,7 @@ public class MiControlador {
         return "publicidad";
     }
 
-    // --- Métricas ---
-    @GetMapping("/metricas")
-    public String mostrarMetricas() {
-        return "metricas";
-    }
+
 
     // --- Contacto ---
     @GetMapping("/contacto")
