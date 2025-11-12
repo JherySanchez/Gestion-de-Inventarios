@@ -1,7 +1,8 @@
 -- Tabla tipo_producto (simple: id + nombre)
 CREATE TABLE tipo_producto (
     id_tipo INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
+    nombre VARCHAR(100) NOT NULL,
+    estado VARCHAR(20) NOT NULL DEFAULT 'ACTIVO'
 );
 CREATE TABLE productos ( 
     id_producto INT AUTO_INCREMENT PRIMARY KEY,

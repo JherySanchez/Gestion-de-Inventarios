@@ -17,7 +17,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Producto> listProduct() {
-        return productoRepository.findAll();
+        return productoRepository.findByEstadoIn(List.of("Disponible", "Bajo", "Agotado"));
     }
 
     @Override
@@ -38,7 +38,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Integer idProducto) {
-        productoRepository.deleteById(idProducto);
+        Producto producto = this.buscarProducto(idProducto);
+        if (producto != null) {
+            producto.setEstado("INACTIVO"); // Marcamos como inactivo
+            productoRepository.save(producto);
+        }
     }
 
     @Override

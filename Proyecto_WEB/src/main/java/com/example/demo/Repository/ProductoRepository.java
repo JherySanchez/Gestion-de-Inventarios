@@ -13,6 +13,8 @@ import com.example.demo.Model.DTO.ActivitiesDTO;
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     // Spring JPA los usa
     // save(), findById(), findAll(), deleteById(), etc.
+    List<Producto> findByEstadoIn(List<String> estados);
+    List<Producto> findByTipoProducto(com.example.demo.Model.TipoProducto tipoProducto);
 
 @Query(
       value = "SELECT p.nombre AS nombre, i.cantidad AS cantidad, 'ENTRADA' AS tipo, i.fecha_ingreso AS fecha " +

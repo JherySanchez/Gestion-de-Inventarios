@@ -14,6 +14,9 @@ public class TipoProducto {
     @Column(nullable = false, length = 100)
     private String nombre;
 
+    @Column(nullable = false)
+    private String estado= "ACTIVO";
+
     public TipoProducto() {}
 
     public TipoProducto(String nombre) {
@@ -35,4 +38,13 @@ public class TipoProducto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
 }

@@ -18,13 +18,23 @@ public class TipoProductoController {
         this.tipoService = tipoService;
     }
 
-    // Listar todos los tipos de productos
+
+    //Pruebas de restauracion
     @GetMapping
+    public String listar(Model model) {
+        model.addAttribute("tipos", tipoService.listar()); // Activos
+        model.addAttribute("tiposInactivos", tipoService.listarInactivos()); // Inactivos
+        model.addAttribute("tipoProducto", new TipoProducto());
+        return "tipo-producto";
+    }
+    //Aqui acaba
+    // Listar todos los tipos de productos(original)
+    /*@GetMapping
     public String listar(Model model) {
         model.addAttribute("tipos", tipoService.listar());
         model.addAttribute("tipoProducto", new TipoProducto());
         return "tipo-producto";
-    }
+    }*/
 
     // Guardar un tipo de producto (crear o actualizar)
     @PostMapping("/guardar")
@@ -37,6 +47,13 @@ public class TipoProductoController {
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Integer id) {
         tipoService.eliminar(id);
+        return "redirect:/tipos";
+    }
+
+    //Prueba de restaurar
+    @GetMapping("/restaurar/{id}")
+    public String restaurar(@PathVariable Integer id) {
+        tipoService.restaurar(id);
         return "redirect:/tipos";
     }
 }
