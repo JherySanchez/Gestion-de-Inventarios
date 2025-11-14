@@ -25,17 +25,25 @@ public class UsuarioController {
     }
 
     @PostMapping("/agregar")
-    public String agregarUsuario(@ModelAttribute Usuario usuario, Model model) {
+    public String agregarUsuario(@RequestParam("nombre") String nombre,
+                               @RequestParam("email") String email,
+                               @RequestParam("rol") String rol,
+                               @RequestParam("estado") String estado,
+                               Model model) {
+        
         try {
-            usuarioService.crearNuevoUsuario(usuario.getNombre(), usuario.getEmail(), usuario.getRol(), usuario.getEstado());
+            usuarioService.crearNuevoUsuario(nombre, email, rol, estado);
             return "redirect:/gestion-usuarios"; 
             
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             return listarUsuarios(model);
+            
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("error", "Error: El email '" + email + "' ya está registrado.");
+            return listarUsuarios(model);
         }
     }
-
 
     @GetMapping("/eliminar/{id}") 
     public String eliminarUsuario(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {

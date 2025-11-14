@@ -42,7 +42,9 @@ public class MovimientoController {
         List<Ingreso> listaIngresos = ingresoRepository.findAll();
         List<Venta> listaVentas = ventaRepository.findAll();
         
-        List<Producto> listaProductos = productoRepository.findAll(); 
+        //List<Producto> listaProductos = productoRepository.findAll();
+        //Ahora busca solo los productos disponible, bajo agotado...los inactivos se excluyen
+        List<Producto> listaProductos = productoRepository.findByEstadoIn(List.of("Disponible", "Bajo", "Agotado")); 
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
 
         model.addAttribute("ingresos", listaIngresos);
