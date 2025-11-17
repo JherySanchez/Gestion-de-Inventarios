@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "ingresos")
@@ -18,7 +19,7 @@ public class Ingreso {
     private Producto producto;
 
     private int cantidad;
-    private LocalDateTime fecha_ingreso = LocalDateTime.now();
+    private LocalDateTime fecha_ingreso = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
     private String descripcion;
 
     public int getId_ingreso() {
