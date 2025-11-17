@@ -14,5 +14,8 @@ public interface ProductService {
     public void updateProduct(Producto producto);
     public void deleteProduct(Integer idProducto);
     public List<ActivitiesDTO> getAllActivitiesService();
+    public ActivitiesDTO getOneActivitiesService();
+    public int totalProductos();
+    public int productosBajoStock();
     
 }

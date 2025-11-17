@@ -68,7 +68,14 @@ public class MiControlador {
     @GetMapping("/dashboard")
     public String mostrarDashboard(Model model) {
         List<ActivitiesDTO> listaRegistro = productService.getAllActivitiesService();
+        ActivitiesDTO actividadUltima = productService.getOneActivitiesService();
+        int totalProductos = productService.totalProductos();
+        int productosBajoStock = productService.productosBajoStock();
         model.addAttribute("listaRegistros", listaRegistro);
+        model.addAttribute("actividadUltima", actividadUltima);
+        model.addAttribute("totalProductos", totalProductos);
+        model.addAttribute("productosBajoStock", productosBajoStock);
+
         return "dashboard";
     }
 

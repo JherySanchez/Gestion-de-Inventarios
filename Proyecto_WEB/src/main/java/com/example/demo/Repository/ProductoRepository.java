@@ -29,5 +29,13 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
       nativeQuery = true
     )
     public List<ActivitiesDTO> getAllActivities();
+    
+     //  TOTAL DE PRODUCTOS
+    @Query("SELECT COUNT(p) FROM Producto p")
+    int totalProductos();
+
+    // PRODUCTOS CON BAJO STOCK
+    @Query("SELECT COUNT(p) FROM Producto p WHERE p.stock < 10")
+    int productosBajoStock();
 
 }

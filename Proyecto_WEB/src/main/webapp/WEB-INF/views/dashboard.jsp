@@ -29,24 +29,33 @@
                 <div class="card">
                     <span class="material-icons card-icon">storage</span>
                     <h3>Total de Productos</h3>
-                    <p id="total-productos">Cargando...</p>
+                    <p>${totalProductos} productos</p>
+
                 </div>
                 
                 <div class="card warning">
                     <span class="material-icons card-icon">warning</span>
                     <h3>Productos con Bajo Stock</h3>
-                    <p id="bajo-stock">Cargando...</p>
+                    <p>${productosBajoStock} productos con bajo stock</p>
+
                 </div>
 
                 <div class="card">
                     <span class="material-icons card-icon">input</span>
-                    <h3>Últimas Entradas</h3>
-                    <ul id="ultimas-entradas-lista"></ul>
+                    <h3>Actividad Reciente</h3>
+                    <ul id="ultimas-entradas-lista">
+                        <li>
+                              <strong>${actividadUltima.nombre}</strong> <br>
+                                    Cantidad: ${actividadUltima.cantidad} <br>
+                                  Tipo: ${actividadUltima.tipo} <br>
+                                  Fecha: ${actividadUltima.fecha}
+                         </li>
+                    </ul>
                 </div>
             </section>
 
             <section class="recent-activity">
-                <h2>Actividad Reciente</h2>
+                <h2>Lista de Actividades</h2>
                 <table class="activity-table">
                     <thead >
 

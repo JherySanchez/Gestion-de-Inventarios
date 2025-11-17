@@ -49,4 +49,17 @@ public class ProductServiceImpl implements ProductService {
     public List<ActivitiesDTO> getAllActivitiesService() {
       return productoRepository.getAllActivities();
     }
+    @Override
+    public ActivitiesDTO getOneActivitiesService() {
+      return productoRepository.getAllActivities().get(0);
+    }
+    @Override
+    public int totalProductos(){
+     return productoRepository.totalProductos();
+    }
+    @Override
+     public int productosBajoStock(){
+    return productoRepository.productosBajoStock();        
+    }
+
 }
