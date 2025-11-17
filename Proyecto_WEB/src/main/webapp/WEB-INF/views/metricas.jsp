@@ -27,19 +27,20 @@
         </header>
 
         <section class="metrics-section">
-            <div class="chart-card">
-                <h3>Productos más vendidos</h3>
-                <canvas id="barChart"></canvas>
-            </div>
+           
 
             <div class="chart-card">
                 <h3>Ventas mensuales</h3>
                 <canvas id="lineChart"></canvas>
             </div>
+            <div class="chart-card">
+                <h3>Unidades vendidas mensuales</h3>
+                <canvas id="unidadesChart"></canvas>
+            </div>
 
             <div class="chart-card">
-                <h3>Estado de stock</h3>
-                <canvas id="pieChart"></canvas>
+                 <h3>Ingresos de inventario mensuales</h3>
+                 <canvas id="ingresosChart"></canvas>
             </div>
 
         </section>

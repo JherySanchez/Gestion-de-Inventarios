@@ -1,31 +1,20 @@
 package com.example.demo.Repository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 import java.util.*;
+
 @Repository
 public class MetricasRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public Map<String, Integer> obtenerProductosMasVendidos() {
-        String sql = """
-            SELECT p.nombre, SUM(dv.cantidad) AS total_vendido
-            FROM detalle_venta dv
-            JOIN productos p ON dv.id_producto = p.id_producto
-            GROUP BY p.nombre
-            ORDER BY total_vendido DESC
-            LIMIT 5
-        """;
-
-        Map<String, Integer> data = new LinkedHashMap<>();
-        jdbcTemplate.query(sql, rs -> {
-            data.put(rs.getString("nombre"), rs.getInt("total_vendido"));
-        });
-        return data;
-    }
-
+     // ==========================================
+    // VENTAS MENSUALES (TOTAL S/.)
+    // ==========================================
     public Map<String, Double> obtenerVentasMensuales() {
         String sql = """
             SELECT FORMATDATETIME(v.fecha_venta, 'MMMM') AS mes, SUM(v.total) AS total
@@ -41,6 +30,9 @@ public class MetricasRepository {
         return data;
     }
 
+    // ==========================================
+    // ESTADO DEL STOCK
+    // ==========================================
     public Map<String, Integer> obtenerEstadoStock() {
         String sql = """
             SELECT 
@@ -58,32 +50,73 @@ public class MetricasRepository {
         });
         return data;
     }
-   public Map<String, Map<String, Integer>> obtenerVentasMensualesPorProducto() {
+
+    // ==========================================
+    // INGRESOS MENSUALES
+    // ==========================================
+    public Map<String, Integer> obtenerIngresosMensuales() {
         String sql = """
             SELECT 
-                p.nombre AS producto,
-                DATE_FORMAT(v.fecha_venta, '%Y-%m') AS mes,
-                SUM(dv.cantidad) AS total_vendido
-            FROM detalle_venta dv
-            JOIN ventas v ON dv.id_venta = v.id_venta
-            JOIN productos p ON dv.id_producto = p.id_producto
-            GROUP BY p.nombre, DATE_FORMAT(v.fecha_venta, '%Y-%m')
-            ORDER BY mes ASC;
+                FORMATDATETIME(fecha_ingreso, 'yyyy-MM') AS mes,
+                SUM(cantidad) AS total
+            FROM ingresos
+            GROUP BY mes
+            ORDER BY mes ASC
         """;
 
-        List<Map<String, Object>> resultados = jdbcTemplate.queryForList(sql);
+        Map<String, Integer> data = new LinkedHashMap<>();
 
-        Map<String, Map<String, Integer>> datos = new LinkedHashMap<>();
+        jdbcTemplate.query(sql, rs -> {
+            data.put(rs.getString("mes"), rs.getInt("total"));
+        });
 
-        for (Map<String, Object> fila : resultados) {
-            String producto = (String) fila.get("producto");
-            String mes = (String) fila.get("mes");
-            Integer total = ((Number) fila.get("total_vendido")).intValue();
+        return data;
+    }
 
-            datos.computeIfAbsent(producto, k -> new LinkedHashMap<>()).put(mes, total);
-        }
+    // ==========================================
+    // UNIDADES VENDIDAS MENSUALES
+    // ==========================================
+    public Map<String, Integer> obtenerUnidadesVendidasMensuales() {
+        String sql = """
+            SELECT 
+                MONTH(v.fecha_venta) AS mes,
+                SUM(dv.cantidad) AS unidades
+            FROM detalle_venta dv
+            INNER JOIN ventas v ON dv.id_venta = v.id_venta
+            GROUP BY MONTH(v.fecha_venta)
+            ORDER BY mes
+        """;
 
-        return datos;
-   }
+        Map<String, Integer> data = new LinkedHashMap<>();
+
+        jdbcTemplate.query(sql, rs -> {
+            int mesNum = rs.getInt("mes");
+            String mesNombre = convertirMes(mesNum);
+            data.put(mesNombre, rs.getInt("unidades"));
+        });
+
+        return data;
+    }
+
+    // ==========================================
+    // CONVERTIR NÚMERO DE MES A NOMBRE DE MES
+    // ==========================================
+    private String convertirMes(int mes) {
+        return switch (mes) {
+            case 1 -> "Enero";
+            case 2 -> "Febrero";
+            case 3 -> "Marzo";
+            case 4 -> "Abril";
+            case 5 -> "Mayo";
+            case 6 -> "Junio";
+            case 7 -> "Julio";
+            case 8 -> "Agosto";
+            case 9 -> "Septiembre";
+            case 10 -> "Octubre";
+            case 11 -> "Noviembre";
+            case 12 -> "Diciembre";
+            default -> "Desconocido";
+        };
+    }
 
 }

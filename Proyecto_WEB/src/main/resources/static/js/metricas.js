@@ -1,25 +1,15 @@
 document.addEventListener('DOMContentLoaded', async () => {
+
   async function fetchData(url) {
     const res = await fetch(url);
     return await res.json();
   }
 
-  // Productos más vendidos
-  const productos = await fetchData('/metricas/productos-vendidos');
-  new Chart(document.getElementById("barChart"), {
-    type: "bar",
-    data: {
-      labels: Object.keys(productos),
-      datasets: [{
-        label: "Unidades vendidas",
-        data: Object.values(productos),
-        backgroundColor: "rgba(54, 162, 235, 0.7)",
-      }]
-    }
-  });
-
-  // Ventas mensuales
+  // ------------------------------------------
+  // 1. Ventas totales por mes (LINE CHART)
+  // ------------------------------------------
   const ventas = await fetchData('/metricas/ventas-mensuales');
+
   new Chart(document.getElementById("lineChart"), {
     type: "line",
     data: {
@@ -34,61 +24,112 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Estado del stock
-  const stock = await fetchData('/metricas/stock');
-  new Chart(document.getElementById("pieChart"), {
-    type: "pie",
-    data: {
-      labels: Object.keys(stock),
-      datasets: [{
-        data: Object.values(stock),
-        backgroundColor: [
-          "rgba(75, 192, 192, 0.7)",
-          "rgba(255, 206, 86, 0.7)",
-          "rgba(255, 99, 132, 0.7)"
-        ]
-      }]
-    }
-  });
+  // ------------------------------------------
+  // 2. VENTAS POR VENDEDOR (BARRAS)
+  // ------------------------------------------
+  const datos = await fetchData('/metricas/ventas-mensuales-vendedor');
 
-  // Ventas mensuales por producto
-  const ventasMensuales = await fetchData('/metricas/ventas-mensuales-por-producto');
+  const meses = Object.keys(datos);
+  const vendedores = new Set();
+  meses.forEach(m => Object.keys(datos[m]).forEach(v => vendedores.add(v)));
+  const vendedoresUnicos = [...vendedores];
 
-  const meses = Object.keys(ventasMensuales);
-  const productosSet = new Set();
+  const totalesPorVendedor = vendedoresUnicos.map(vendedor =>
+    meses.reduce((acc, mes) => acc + (datos[mes][vendedor] || 0), 0)
+  );
 
-  Object.values(ventasMensuales).forEach(mesData => {
-    Object.keys(mesData).forEach(p => productosSet.add(p));
-  });
-  const productosUnicos = Array.from(productosSet);
-
-  const datasets = productosUnicos.map(prod => ({
-    label: prod,
-    data: meses.map(m => ventasMensuales[m][prod] || 0),
-    backgroundColor: `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, 0.7)`
-  }));
-
-  new Chart(document.getElementById("ventasMensualesChart"), {
+  new Chart(document.getElementById("ventasVendedorChart"), {
     type: "bar",
     data: {
-      labels: meses,
-      datasets: datasets
+      labels: vendedoresUnicos,
+      datasets: [
+        {
+          data: totalesPorVendedor,
+          backgroundColor: "#4a90e2",
+          borderWidth: 1
+        }
+      ]
     },
     options: {
       responsive: true,
       plugins: {
-        title: {
-          display: true,
-          text: "Ventas mensuales por producto (2025)"
-        },
-        legend: {
-          position: "bottom"
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: context => `Unidades vendidas: ${context.raw}`
+          }
         }
       },
       scales: {
-        x: { stacked: true },
-        y: { stacked: true, beginAtZero: true }
+        x: {
+          ticks: { display: true },
+          grid: { display: false }
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Unidades vendidas"
+          }
+        }
       }
     }
   });
+
+  // ------------------------------------------
+  // 3. Ingresos al inventario mensuales (LINE)
+  // ------------------------------------------
+  const ingresos = await fetchData('/metricas/ingresos-mensuales');
+
+  new Chart(document.getElementById("ingresosChart"), {
+    type: "line",
+    data: {
+      labels: Object.keys(ingresos),
+      datasets: [{
+        label: "Ingresos al inventario",
+        data: Object.values(ingresos),
+        borderColor: "rgba(54, 162, 235, 1)",
+        fill: true,
+        tension: 0.4
+      }]
+    }
+  });
+
+  // ------------------------------------------
+  // 4. UNIDADES VENDIDAS MENSUALES (BARRAS)
+  // ------------------------------------------
+  const unidades = await fetchData('/metricas/unidades-vendidas-mensuales');
+
+  new Chart(document.getElementById("unidadesChart"), {
+    type: "bar",
+    data: {
+      labels: Object.keys(unidades),           // Meses (Enero, Febrero…)
+      datasets: [{
+        label: "Unidades vendidas",
+        data: Object.values(unidades),         // Cantidades
+        backgroundColor: "rgba(255, 159, 64, 0.7)",
+        borderColor: "rgba(255, 159, 64, 1)",
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: ctx => `Unidades: ${ctx.raw}`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Unidades vendidas"
+          }
+        }
+      }
+    }
+  });
+
 });

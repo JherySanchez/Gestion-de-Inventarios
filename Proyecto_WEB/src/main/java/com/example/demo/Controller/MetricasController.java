@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.demo.Service.MetricasService;
-import org.springframework.http.ResponseEntity;
+
 import java.util.Map;
 
 @Controller
@@ -17,16 +17,10 @@ public class MetricasController {
 
     @GetMapping
     public String verMetricas(Model model) {
-        return "metricas"; // JSP
+        return "metricas"; // JSP principal
     }
 
-    // --- Endpoints para los gráficos (JSON) ---
-    @GetMapping("/productos-vendidos")
-    @ResponseBody
-    public Map<String, Integer> getProductosMasVendidos() {
-        return metricasService.obtenerProductosMasVendidos();
-    }
-
+    // --- JSON ENDPOINTS PARA LOS GRÁFICOS ---
     @GetMapping("/ventas-mensuales")
     @ResponseBody
     public Map<String, Double> getVentasMensuales() {
@@ -38,8 +32,16 @@ public class MetricasController {
     public Map<String, Integer> getEstadoStock() {
         return metricasService.obtenerEstadoStock();
     }
-    @GetMapping("/ventas-mensuales-por-producto")
-    public ResponseEntity<Map<String, Map<String, Integer>>> obtenerVentasMensualesPorProducto() {
-        return ResponseEntity.ok(metricasService.obtenerVentasMensualesPorProducto());
+
+    @GetMapping("/ingresos-mensuales")
+    @ResponseBody
+    public Map<String, Integer> getIngresosMensuales() {
+        return metricasService.obtenerIngresosMensuales();
     }
+    @GetMapping("/unidades-vendidas-mensuales")
+    @ResponseBody
+    public Map<String, Integer> getUnidadesVendidasMensuales() {
+        return metricasService.obtenerUnidadesVendidasMensuales();
+    }
+
 }
