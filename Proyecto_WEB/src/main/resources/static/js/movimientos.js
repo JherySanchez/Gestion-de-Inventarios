@@ -187,6 +187,26 @@ document.addEventListener('DOMContentLoaded', function () {
         // Descargamos el PDF
         pdf.save(nombreArchivo);
     });
-}
-}
+    }
+    }
+
+        //Para calcular el total automaticamente
+
+    const selectProducto = document.getElementById('salida-producto');
+    const inputCantidad = document.getElementById('salida-cantidad');
+    const inputTotal = document.getElementById('salida-total');
+
+    function calcularTotal() {
+        const opcionSeleccionada = selectProducto.options[selectProducto.selectedIndex];
+        const precio = parseFloat(opcionSeleccionada.getAttribute('data-precio')) || 0;
+        const cantidad = parseInt(inputCantidad.value) || 0;
+        const total = precio * cantidad;
+        inputTotal.value = total.toFixed(2);
+    }
+
+    // Asignar eventos si los elementos existen en la página
+    if (selectProducto && inputCantidad) {
+        selectProducto.addEventListener('change', calcularTotal);
+        inputCantidad.addEventListener('input', calcularTotal);
+    }    
 });

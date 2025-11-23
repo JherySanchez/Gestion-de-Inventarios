@@ -114,9 +114,9 @@
             <div class="modal-body">
                 <form action="/ventas/agregar" method="POST">
                     <div class="form-group"><label>Cliente:</label><select name="id_usuario" required><c:forEach items="${usuarios}" var="u"><option value="${u.idUsuario}">${u.nombre}</option></c:forEach></select></div>
-                    <div class="form-group"><label>Producto:</label><select name="id_producto" required><c:forEach items="${productos}" var="p"><option value="${p.idProducto}">${p.nombre}</option></c:forEach></select></div>
-                    <div class="form-group"><label>Cantidad:</label><input type="number" name="cantidad" required></div>
-                    <div class="form-group"><label>Total (S/):</label><input type="number" step="0.01" name="total" required></div>
+                    <div class="form-group"><label>Producto:</label><select name="id_producto" id="salida-producto" required><option value="" data-precio="0">-- Seleccione un producto --</option><c:forEach items="${productos}" var="p"><option value="${p.idProducto}" data-precio="${p.precio}">${p.nombre} (S/ ${p.precio})</option></c:forEach></select></div>
+                    <div class="form-group"><label>Cantidad:</label><input type="number" name="cantidad" id="salida-cantidad" min="1" required></div>
+                    <div class="form-group"><label>Total (S/):</label><input type="number" step="0.01" name="total" id="salida-total" required readonly></div>
                     <div class="form-actions"><button type="submit" class="save-btn">Guardar Salida</button></div>
                 </form>
             </div>

@@ -3,7 +3,7 @@
 -- ==========================================
 
 -- Tipos de productos
-INSERT INTO tipo_producto(nombre) VALUES ('Electronica'), ('Accesorios'), ('Eventos');
+INSERT INTO tipo_producto(nombre) VALUES ('Electronica'), ('Accesorios'), ('Camaras');
 
 -- Productos
 INSERT INTO productos (nombre, precio, stock, estado, id_tipo) VALUES 
@@ -11,7 +11,8 @@ INSERT INTO productos (nombre, precio, stock, estado, id_tipo) VALUES
 ('Mouse Logitech MX Master', 25.00, 150, 'Disponible', 2), -- Accesorios
 ('Monitor LG Ultrawide', 300.00, 30, 'Disponible', 1),     -- Electrónica
 ('Teclado HyperX Alloy Rise', 80.00, 20, 'Bajo', 2),       -- Accesorios
-('Audífonos Razer Blackshark V3', 150.00, 10, 'Bajo', 2);  -- Accesorios
+('Audífonos Razer Blackshark V3', 150.00, 10, 'Bajo', 2),  -- Accesorios
+('Logitech MX Brio Webcam 4K',930.00, 50,'Disponible',3);  -- Camaras
 
 -- Usuarios
 /*En un futuro se pueden hashear los password*/
